@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.xgs.androidbase.util.TUtil;
 
+import butterknife.ButterKnife;
+
 /**
  * Created by W.J on 2018/6/21.
  */
@@ -25,6 +27,7 @@ public abstract class BaseActivity<T extends BasePresenter,E extends BaseModel> 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
+        ButterKnife.bind(this);
         mContext = this;
         mPresenter = TUtil.getT(this, 0);
         mModel=TUtil.getT(this,1);
