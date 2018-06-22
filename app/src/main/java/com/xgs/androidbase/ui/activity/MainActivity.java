@@ -1,5 +1,6 @@
 package com.xgs.androidbase.ui.activity;
 
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,7 +19,10 @@ import android.widget.TextView;
 import com.xgs.androidbase.R;
 import com.xgs.androidbase.adapter.MainFragmentPagerAdapter;
 import com.xgs.androidbase.base.BaseActivity;
+import com.xgs.androidbase.ui.fragment.GankFragment;
 import com.xgs.androidbase.ui.fragment.MainFragment;
+import com.xgs.androidbase.ui.fragment.ToolFragment;
+import com.xgs.androidbase.ui.fragment.WanFragment;
 import com.xgs.androidbase.util.GlideUtil;
 import com.xgs.androidbase.util.LogUtil;
 import com.xgs.androidbase.util.ViewUtil;
@@ -27,22 +32,19 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class MainActivity extends BaseActivity implements MainFragment.OnFragmentInteractionListener {
+public class MainActivity extends BaseActivity implements MainFragment.OnFragmentInteractionListener, WanFragment.OnFragmentInteractionListener, GankFragment.OnFragmentInteractionListener, ToolFragment.OnFragmentInteractionListener {
     @BindView(R.id.nav_view)
     NavigationView navView;
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
-    @BindView(R.id.tool_bar)
-    Toolbar toolBar;
     @BindView(R.id.view_pager)
     ViewPager viewPager;
-    @BindView(R.id.title_text)
-    TextView titleText;
-    private List<String> tabTitles = new ArrayList<String>();
     private List<Fragment> fragmentList = new ArrayList<Fragment>();
     private MainFragmentPagerAdapter mainFragmentPagerAdapter;
+    private List<String> tabTitles = new ArrayList<String>();
+    private int[] tabIcons = {R.drawable.selector_and_image, R.drawable.selector_gank_image, R.drawable.selector_tool_image};
 
     @Override
     public int getLayoutId() {
@@ -66,32 +68,44 @@ public class MainActivity extends BaseActivity implements MainFragment.OnFragmen
     }
 
     private void initViewPager() {
-        initData();
-        toolBar.setTitle("");
-        titleText.setText("首页");
-        for (String tabTitle : tabTitles) {
-            fragmentList.add(newFragment(tabTitle));
-        }
-        mainFragmentPagerAdapter = new MainFragmentPagerAdapter(getSupportFragmentManager(), fragmentList, tabTitles);
+        tabTitles.add("安卓");
+        tabTitles.add("福利");
+        tabTitles.add("工具");
+        fragmentList.add(WanFragment.newInstance());
+        fragmentList.add(GankFragment.newInstance());
+        fragmentList.add(ToolFragment.newInstance());
+        mainFragmentPagerAdapter = new MainFragmentPagerAdapter(getSupportFragmentManager(), fragmentList);
         viewPager.setAdapter(mainFragmentPagerAdapter);
         viewPager.setCurrentItem(0);
+        viewPager.setOffscreenPageLimit(3);
         tabLayout.setupWithViewPager(viewPager);
-        ViewUtil.dynamicSetTabLayoutMode(tabLayout, mContext);
-    }
-
-    private MainFragment newFragment(String title) {
-        MainFragment mainFragment = MainFragment.newInstance(title);
-        return mainFragment;
-    }
-
-    private void initData() {
-        tabTitles.add("湖人");
-        tabTitles.add("雷霆");
-        tabTitles.add("马刺");
-        tabTitles.add("火箭");
-        tabTitles.add("热火");
-        tabTitles.add("骑士");
-        tabTitles.add("凯尔特人");
+        //自定义TabLayout item样式
+        //方法一
+        for (int i = 0; i < tabTitles.size(); i++) {
+            View itemView = LayoutInflater.from(this).inflate(R.layout.tab_item, tabLayout, false);
+            TextView itemText = (TextView) itemView.findViewById(R.id.item_text);
+            ImageView itemImage = (ImageView) itemView.findViewById(R.id.item_image);
+            itemText.setText(tabTitles.get(i));
+            itemImage.setImageResource(tabIcons[i]);
+            tabLayout.getTabAt(i).setCustomView(itemView);
+        }
+        //方法二
+//        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+//            TabLayout.Tab tab = tabLayout.getTabAt(i);
+//            Drawable d = null;
+//            switch (i) {
+//                case 0:
+//                    d = getResources().getDrawable(R.drawable.selector_and_image);
+//                    break;
+//                case 1:
+//                    d = getResources().getDrawable(R.drawable.selector_gank_image);
+//                    break;
+//                case 2:
+//                    d = getResources().getDrawable(R.drawable.selector_tool_image);
+//                    break;
+//            }
+//            tab.setIcon(d);
+//        }
     }
 
     private void initDrawerLayout() {
