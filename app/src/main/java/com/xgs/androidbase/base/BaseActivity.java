@@ -37,4 +37,9 @@ public abstract class BaseActivity<T extends BasePresenter,E extends BaseModel> 
         this.initPresenter();
         this.initView();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }
