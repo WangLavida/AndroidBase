@@ -1,6 +1,7 @@
 package com.xgs.androidbase;
 
 import android.app.Application;
+import android.content.Context;
 import android.support.annotation.Nullable;
 
 import com.blankj.utilcode.util.Utils;
@@ -17,13 +18,17 @@ import com.orhanobut.logger.PrettyFormatStrategy;
  */
 
 public class MainApplication extends Application {
+    private static MainApplication mainApplication;
     @Override
     public void onCreate() {
         super.onCreate();
+        mainApplication = this;
         Utils.init(this);
         initLog();
     }
-
+    public static Context getAppContext() {
+        return mainApplication;
+    }
     private void initLog() {
         FormatStrategy formatStrategy = PrettyFormatStrategy.newBuilder()
                 .showThreadInfo(false)  //（可选）是否显示线程信息。 默认值为true
