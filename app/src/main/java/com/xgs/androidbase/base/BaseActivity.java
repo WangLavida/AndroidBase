@@ -13,16 +13,20 @@ import butterknife.ButterKnife;
  * Created by W.J on 2018/6/21.
  */
 
-public abstract class BaseActivity<T extends BasePresenter,E extends BaseModel> extends AppCompatActivity{
+public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel> extends AppCompatActivity {
     public T mPresenter;
     public E mModel;
     public Context mContext;
+
     //获取布局文件
     public abstract int getLayoutId();
+
     //简单页面无需mvp就不用管此方法即可,完美兼容各种实际场景的变通
     public abstract void initPresenter();
+
     //初始化view
     public abstract void initView();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,10 +34,12 @@ public abstract class BaseActivity<T extends BasePresenter,E extends BaseModel> 
         ButterKnife.bind(this);
         mContext = this;
         mPresenter = TUtil.getT(this, 0);
-        mModel=TUtil.getT(this,1);
-        if(mPresenter!=null){
-            mPresenter.mContext=this;
+        mModel = TUtil.getT(this, 1);
+        if (mPresenter != null) {
+            mPresenter.mContext = this;
+            mPresenter.setVM(this, mModel);
         }
+
         this.initPresenter();
         this.initView();
     }
@@ -41,5 +47,8 @@ public abstract class BaseActivity<T extends BasePresenter,E extends BaseModel> 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (mPresenter != null) {
+            mPresenter.detachMV();
+        }
     }
 }

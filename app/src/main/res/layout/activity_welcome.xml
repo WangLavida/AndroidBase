@@ -6,6 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/welcome"
-    tools:context="com.xgs.androidbase.WelcomeActivity">
+    tools:context="com.xgs.androidbase.ui.activity.WelcomeActivity">
 
 </android.support.constraint.ConstraintLayout>

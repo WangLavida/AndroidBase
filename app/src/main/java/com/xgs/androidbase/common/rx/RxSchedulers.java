@@ -1,4 +1,4 @@
-package com.xgs.androidbase.common;
+package com.xgs.androidbase.common.rx;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
