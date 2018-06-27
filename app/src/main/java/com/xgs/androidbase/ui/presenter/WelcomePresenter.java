@@ -19,9 +19,13 @@ public class WelcomePresenter extends WelcomeContract.Presenter {
     public void getProjectTree() {
         mModel.getProjectTree().subscribe(new RxObserver<BaseWanBean<ProjectTreeBean>>(mContext, mRxManager) {
             @Override
-            public void onNext(BaseWanBean<ProjectTreeBean> projectTreeBeanBaseWanBean) {
-                super.onNext(projectTreeBeanBaseWanBean);
+            public void onSuccess(BaseWanBean<ProjectTreeBean> projectTreeBeanBaseWanBean) {
                 mView.saveProjectTree(projectTreeBeanBaseWanBean);
+            }
+
+            @Override
+            public void onFail(Throwable e, boolean isNetWorkError) {
+
             }
         });
     }

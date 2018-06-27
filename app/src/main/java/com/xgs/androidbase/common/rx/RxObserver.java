@@ -1,6 +1,11 @@
 package com.xgs.androidbase.common.rx;
 
+import android.accounts.NetworkErrorException;
 import android.content.Context;
+
+import java.net.ConnectException;
+import java.net.UnknownHostException;
+import java.util.concurrent.TimeoutException;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
@@ -14,6 +19,10 @@ public abstract class RxObserver<T> implements Observer<T> {
     private Context mContext;
     private RxManager mRxManager;
 
+    public abstract void onSuccess(T t);
+
+    public abstract void onFail(Throwable e,boolean isNetWorkError);
+
     public RxObserver(Context mContext, RxManager mRxManager) {
         this.mContext = mContext;
         this.mRxManager = mRxManager;
@@ -26,12 +35,23 @@ public abstract class RxObserver<T> implements Observer<T> {
 
     @Override
     public void onNext(T t) {
-
+        onSuccess(t);
     }
 
     @Override
     public void onError(Throwable e) {
-
+        try {
+            if (e instanceof ConnectException
+                    || e instanceof TimeoutException
+                    || e instanceof NetworkErrorException
+                    || e instanceof UnknownHostException) {
+                onFail(e, true);
+            } else {
+                onFail(e, false);
+            }
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
     }
 
     @Override

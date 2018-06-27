@@ -37,9 +37,10 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         mModel = TUtil.getT(this, 1);
         if (mPresenter != null) {
             mPresenter.mContext = this;
+        }
+        if (this instanceof BaseView&&mPresenter != null) {
             mPresenter.setVM(this, mModel);
         }
-
         this.initPresenter();
         this.initView();
     }
