@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/bg"
     tools:context="com.xgs.androidbase.ui.activity.FollowManageActivity">
 
     <android.support.v7.widget.Toolbar
@@ -14,14 +15,16 @@
         android:layout_height="@dimen/toolbar_height"
         android:background="@color/colorPrimary"
         app:navigationIcon="@mipmap/back_icon"></android.support.v7.widget.Toolbar>
-   <TextView
-       android:gravity="center"
-       android:padding="@dimen/view_padding"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:textSize="12sp"
-       android:text="点击可增删/长按并拖拽可排序"
-       android:textColor="@color/text_default"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="@dimen/view_padding"
+        android:text="点击可增删/长按并拖拽可排序"
+        android:textColor="@color/text_default"
+        android:textSize="12sp"/>
+
     <TextView
         style="@style/follow_text_style"
         android:text="我的关注"/>
@@ -32,7 +35,7 @@
 
     <TextView
         style="@style/follow_text_style"
-        android:text="更多分类"/>
+        android:text="更多标签"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/more_follow"
