@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.xgs.androidbase.ui.activity.FollowManageActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:background="@color/colorPrimary"
+        app:navigationIcon="@mipmap/back_icon"></android.support.v7.widget.Toolbar>
+   <TextView
+       android:gravity="center"
+       android:padding="@dimen/view_padding"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:textSize="12sp"
+       android:text="点击可增删/长按并拖拽可排序"
+       android:textColor="@color/text_default"/>
+    <TextView
+        style="@style/follow_text_style"
+        android:text="我的关注"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/my_follow"
+        style="@style/follow_recl_style"></android.support.v7.widget.RecyclerView>
+
+    <TextView
+        style="@style/follow_text_style"
+        android:text="更多分类"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/more_follow"
+        style="@style/follow_recl_style"></android.support.v7.widget.RecyclerView>
+</LinearLayout>

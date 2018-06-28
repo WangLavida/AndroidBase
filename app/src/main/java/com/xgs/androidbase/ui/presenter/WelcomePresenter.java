@@ -5,6 +5,7 @@ import com.xgs.androidbase.bean.ProjectTreeBean;
 import com.xgs.androidbase.common.rx.RxObserver;
 import com.xgs.androidbase.ui.contract.WelcomeContract;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observer;
@@ -28,5 +29,15 @@ public class WelcomePresenter extends WelcomeContract.Presenter {
 
             }
         });
+    }
+
+    @Override
+    public List<ProjectTreeBean> getDbProject() {
+        return mModel.getDbProject(mContext);
+    }
+
+    @Override
+    public void saveProjectTree(List<ProjectTreeBean> projectTreeBeanList) {
+        mModel.saveProjectTree(mContext,projectTreeBeanList);
     }
 }

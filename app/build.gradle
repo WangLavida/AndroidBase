@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.jakewharton.butterknife'
+apply plugin: 'org.greenrobot.greendao'
 android {
     compileSdkVersion 26
     defaultConfig {
@@ -15,9 +16,16 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            resValue("string", "PORT_NUMBER", "8083")
+        }
     }
 }
-
+greendao {
+    schemaVersion 1
+    daoPackage 'com.xgs.androidbase.bean.greendao'
+    targetGenDir 'src/main/java'
+}
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
@@ -54,5 +62,10 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.4.0'
     compile 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.10.0'
+
+    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
+
+    implementation 'org.greenrobot:greendao:3.2.2'
+    debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'
 
 }

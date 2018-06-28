@@ -1,11 +1,15 @@
 package com.xgs.androidbase.bean;
 
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
+
 import java.util.List;
+import org.greenrobot.greendao.annotation.Generated;
 
 /**
  * Created by W.J on 2018/6/26.
  */
-
+@Entity
 public class ProjectTreeBean {
 
     /**
@@ -19,12 +23,46 @@ public class ProjectTreeBean {
      */
 
     private int courseId;
-    private int id;
+    @Id
+    private Long id;
     private String name;
     private int order;
     private int parentChapterId;
     private int visible;
-    private List<?> children;
+    private boolean isFollow;
+
+    public boolean isFollow() {
+        return isFollow;
+    }
+
+    public void setFollow(boolean follow) {
+        isFollow = follow;
+    }
+
+    @Generated(hash = 7535458)
+    public ProjectTreeBean(int courseId, Long id, String name, int order,
+            int parentChapterId, int visible, boolean isFollow) {
+        this.courseId = courseId;
+        this.id = id;
+        this.name = name;
+        this.order = order;
+        this.parentChapterId = parentChapterId;
+        this.visible = visible;
+        this.isFollow = isFollow;
+    }
+
+    public ProjectTreeBean(Long id, String name, int order,
+                           int parentChapterId, int visible,boolean isFollow) {
+        this.id = id;
+        this.name = name;
+        this.order = order;
+        this.parentChapterId = parentChapterId;
+        this.visible = visible;
+        this.isFollow = isFollow;
+    }
+    @Generated(hash = 1341939973)
+    public ProjectTreeBean() {
+    }
 
     public int getCourseId() {
         return courseId;
@@ -34,11 +72,11 @@ public class ProjectTreeBean {
         this.courseId = courseId;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -74,11 +112,13 @@ public class ProjectTreeBean {
         this.visible = visible;
     }
 
-    public List<?> getChildren() {
-        return children;
+    public boolean getIsFollow() {
+        return this.isFollow;
     }
 
-    public void setChildren(List<?> children) {
-        this.children = children;
+    public void setIsFollow(boolean isFollow) {
+        this.isFollow = isFollow;
     }
+
+
 }

@@ -1,6 +1,7 @@
 package com.xgs.androidbase.ui.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -10,11 +11,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.xgs.androidbase.R;
 import com.xgs.androidbase.adapter.MainFragmentPagerAdapter;
 import com.xgs.androidbase.base.BaseFragment;
+import com.xgs.androidbase.ui.activity.FollowManageActivity;
 import com.xgs.androidbase.util.ViewUtil;
 
 import java.util.ArrayList;
@@ -22,6 +25,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -32,7 +36,7 @@ import butterknife.Unbinder;
  * Use the {@link WanFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class WanFragment extends BaseFragment implements MainFragment.OnFragmentInteractionListener{
+public class WanFragment extends BaseFragment implements MainFragment.OnFragmentInteractionListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -46,6 +50,8 @@ public class WanFragment extends BaseFragment implements MainFragment.OnFragment
     @BindView(R.id.view_pager)
     ViewPager viewPager;
     Unbinder unbinder;
+    @BindView(R.id.add_follow)
+    ImageView addFollow;
     private List<String> tabTitles = new ArrayList<String>();
     private List<Fragment> fragmentList = new ArrayList<Fragment>();
     private MainFragmentPagerAdapter mainFragmentPagerAdapter;
@@ -98,6 +104,7 @@ public class WanFragment extends BaseFragment implements MainFragment.OnFragment
     public void initView() {
         initViewPager();
     }
+
     private void initViewPager() {
         initData();
         toolBar.setTitle("");
@@ -126,6 +133,7 @@ public class WanFragment extends BaseFragment implements MainFragment.OnFragment
         tabTitles.add("骑士");
         tabTitles.add("凯尔特人");
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -168,6 +176,11 @@ public class WanFragment extends BaseFragment implements MainFragment.OnFragment
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    @OnClick(R.id.add_follow)
+    public void onViewClicked() {
+        FollowManageActivity.startAction(mContext);
     }
 
     /**

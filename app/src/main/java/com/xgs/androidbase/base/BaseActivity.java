@@ -26,6 +26,8 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
 
     //初始化view
     public abstract void initView();
+    //初始化数据
+    public abstract void initData();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,6 +45,8 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         }
         this.initPresenter();
         this.initView();
+        this.initData();
+
     }
 
     @Override

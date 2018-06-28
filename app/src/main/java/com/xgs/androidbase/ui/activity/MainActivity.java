@@ -63,6 +63,11 @@ public class MainActivity extends BaseActivity implements MainFragment.OnFragmen
     }
 
     @Override
+    public void initData() {
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }

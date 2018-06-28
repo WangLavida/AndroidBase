@@ -7,11 +7,14 @@ import com.xgs.androidbase.R;
 import com.xgs.androidbase.base.BaseActivity;
 import com.xgs.androidbase.bean.BaseWanBean;
 import com.xgs.androidbase.bean.ProjectTreeBean;
+import com.xgs.androidbase.common.PorjectListConvert;
 import com.xgs.androidbase.ui.contract.WelcomeContract;
 import com.xgs.androidbase.ui.model.WelcomeModel;
 import com.xgs.androidbase.ui.presenter.WelcomePresenter;
 import com.xgs.androidbase.util.LogUtil;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -34,6 +37,11 @@ public class WelcomeActivity extends BaseActivity<WelcomePresenter, WelcomeModel
 
     @Override
     public void initView() {
+
+    }
+
+    @Override
+    public void initData() {
 
     }
 
@@ -78,6 +86,8 @@ public class WelcomeActivity extends BaseActivity<WelcomePresenter, WelcomeModel
 
     @Override
     public void saveProjectTree(BaseWanBean<ProjectTreeBean> baseWanBean) {
-        LogUtil.i("数据类型数量"+baseWanBean.getData().size());
+        LogUtil.i("数据类型数量" + baseWanBean.getData().size());
+        mPresenter.saveProjectTree(PorjectListConvert.convertList(baseWanBean,mPresenter.getDbProject()));
+        startMain();
     }
 }
