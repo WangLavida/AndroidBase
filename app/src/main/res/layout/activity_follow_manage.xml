@@ -21,13 +21,13 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="@dimen/view_padding"
-        android:text="点击可增删/长按并拖拽可排序"
+        android:text="@string/follow_tip"
         android:textColor="@color/text_default"
         android:textSize="12sp"/>
 
     <TextView
         style="@style/follow_text_style"
-        android:text="我的关注"/>
+        android:text="@string/my_follow"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/my_follow"
@@ -35,7 +35,7 @@
 
     <TextView
         style="@style/follow_text_style"
-        android:text="更多标签"/>
+        android:text="@string/more_follow"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/more_follow"
