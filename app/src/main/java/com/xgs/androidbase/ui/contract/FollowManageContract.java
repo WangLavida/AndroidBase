@@ -12,14 +12,16 @@ import java.util.List;
  */
 
 public interface FollowManageContract {
-    interface Model extends WelcomeContract.Model{
+    interface Model extends WelcomeContract.Model {
     }
 
-    interface View extends BaseView{
+    interface View extends BaseView {
         void getDbProject(List<ProjectTreeBean> projectTreeBeanList);
     }
 
     abstract static class Presenter extends BasePresenter<View, Model> {
         public abstract void getDbProject();
+
+        public abstract void saveProjectTree(List<ProjectTreeBean> projectTreeBeanList);
     }
 }

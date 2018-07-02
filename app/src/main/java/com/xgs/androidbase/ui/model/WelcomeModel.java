@@ -12,6 +12,8 @@ import com.xgs.androidbase.ui.contract.WelcomeContract;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 
 /**
  * Created by W.J on 2018/6/27.
@@ -25,12 +27,26 @@ public class WelcomeModel implements WelcomeContract.Model {
     }
 
     @Override
-    public void saveProjectTree(Context mContext,List<ProjectTreeBean> projectTreeBeanList) {
-        ProjectDaoUtil.init(mContext).insertProjectList(projectTreeBeanList);
+    public Observable<String> saveProjectTree(final Context mContext, final List<ProjectTreeBean> projectTreeBeanList) {
+        return Observable.create(new ObservableOnSubscribe<String>() {
+            @Override
+            public void subscribe(ObservableEmitter<String> emitter) throws Exception {
+                ProjectDaoUtil.init(mContext).insertProjectList(projectTreeBeanList);
+                emitter.onNext("");
+                emitter.onComplete();
+            }
+        });
+
     }
 
     @Override
-    public List<ProjectTreeBean> getDbProject(Context mContext) {
-        return ProjectDaoUtil.init(mContext).queryAllProject();
+    public Observable<List<ProjectTreeBean>> getDbProject(final Context mContext) {
+        return Observable.create(new ObservableOnSubscribe<List<ProjectTreeBean>>() {
+            @Override
+            public void subscribe(ObservableEmitter<List<ProjectTreeBean>> emitter) throws Exception {
+                emitter.onNext(ProjectDaoUtil.init(mContext).queryAllProject());
+                emitter.onComplete();
+            }
+        });
     }
 }

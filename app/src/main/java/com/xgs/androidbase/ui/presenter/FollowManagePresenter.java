@@ -1,6 +1,7 @@
 package com.xgs.androidbase.ui.presenter;
 
 import com.xgs.androidbase.bean.ProjectTreeBean;
+import com.xgs.androidbase.common.rx.RxObserver;
 import com.xgs.androidbase.ui.contract.FollowManageContract;
 
 import java.util.List;
@@ -12,6 +13,21 @@ import java.util.List;
 public class FollowManagePresenter extends FollowManageContract.Presenter {
     @Override
     public void getDbProject() {
-        mView.getDbProject(mModel.getDbProject(mContext));
+        mModel.getDbProject(mContext).subscribe(new RxObserver<List<ProjectTreeBean>>(mContext, mRxManager) {
+            @Override
+            public void onSuccess(List<ProjectTreeBean> projectTreeBeanList) {
+                mView.getDbProject(projectTreeBeanList);
+            }
+
+            @Override
+            public void onFail(Throwable e, boolean isNetWorkError) {
+
+            }
+        });
+    }
+
+    @Override
+    public void saveProjectTree(List<ProjectTreeBean> projectTreeBeanList) {
+      mModel.saveProjectTree(mContext,projectTreeBeanList);
     }
 }

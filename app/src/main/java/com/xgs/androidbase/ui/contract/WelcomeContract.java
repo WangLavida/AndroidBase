@@ -19,17 +19,18 @@ import io.reactivex.Observable;
 public interface WelcomeContract {
     interface Model extends BaseModel {
         Observable<BaseWanBean<ProjectTreeBean>> getProjectTree();
-        void saveProjectTree(Context mContext, List<ProjectTreeBean> projectTreeBeanList);
-        List<ProjectTreeBean> getDbProject(Context mContext);
+        Observable<String> saveProjectTree(Context mContext, List<ProjectTreeBean> projectTreeBeanList);
+        Observable<List<ProjectTreeBean>> getDbProject(Context mContext);
     }
 
     interface View extends BaseView {
         void saveProjectTree(BaseWanBean<ProjectTreeBean> baseWanBean);
+        void getDbProject(List<ProjectTreeBean> projectTreeBeanList);
     }
 
     abstract static class Presenter extends BasePresenter<View, Model> {
         public abstract void getProjectTree();
-        public abstract List<ProjectTreeBean> getDbProject();
+        public abstract void getDbProject();
         public abstract void saveProjectTree(List<ProjectTreeBean> projectTreeBeanList);
     }
 }

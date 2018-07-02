@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 
 /**
  * Created by W.J on 2018/6/27.
@@ -32,12 +33,27 @@ public class WelcomePresenter extends WelcomeContract.Presenter {
     }
 
     @Override
-    public List<ProjectTreeBean> getDbProject() {
-        return mModel.getDbProject(mContext);
+    public void getDbProject() {
+        mModel.getDbProject(mContext).subscribe(new RxObserver<List<ProjectTreeBean>>(mContext, mRxManager) {
+            @Override
+            public void onSuccess(List<ProjectTreeBean> projectTreeBeanList) {
+                mView.getDbProject(projectTreeBeanList);
+            }
+
+            @Override
+            public void onFail(Throwable e, boolean isNetWorkError) {
+
+            }
+        });
     }
 
     @Override
     public void saveProjectTree(List<ProjectTreeBean> projectTreeBeanList) {
-        mModel.saveProjectTree(mContext,projectTreeBeanList);
+        mModel.saveProjectTree(mContext, projectTreeBeanList).subscribe(new Consumer<String>() {
+            @Override
+            public void accept(String s) throws Exception {
+
+            }
+        });
     }
 }
