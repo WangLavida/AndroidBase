@@ -22,14 +22,23 @@ public class ProjectTreeBean {
      * visible : 0
      */
 
+    @Id(autoincrement = true)
+    private Long lid;
     private int courseId;
-    @Id
     private Long id;
     private String name;
     private int order;
     private int parentChapterId;
     private int visible;
     private boolean isFollow;
+
+    public Long getLid() {
+        return lid;
+    }
+
+    public void setLid(Long lid) {
+        this.lid = lid;
+    }
 
     public boolean isFollow() {
         return isFollow;
@@ -39,9 +48,10 @@ public class ProjectTreeBean {
         isFollow = follow;
     }
 
-    @Generated(hash = 7535458)
-    public ProjectTreeBean(int courseId, Long id, String name, int order,
+    @Generated(hash = 1373356533)
+    public ProjectTreeBean(Long lid, int courseId, Long id, String name, int order,
             int parentChapterId, int visible, boolean isFollow) {
+        this.lid = lid;
         this.courseId = courseId;
         this.id = id;
         this.name = name;

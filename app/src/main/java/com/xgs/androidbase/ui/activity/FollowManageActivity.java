@@ -83,7 +83,7 @@ public class FollowManageActivity extends BaseActivity<FollowManagePresenter, Fo
                     myTreeList.get(position).setFollow(false);
                     moreTreeAdapter.addData(myTreeList.get(position));
                     myTreeAdapter.remove(position);
-                    updateDb();
+                    mPresenter.cleanProject();
                 }
             }
         });
@@ -100,17 +100,10 @@ public class FollowManageActivity extends BaseActivity<FollowManagePresenter, Fo
                 moreTreeList.get(position).setFollow(true);
                 myTreeAdapter.addData(moreTreeList.get(position));
                 moreTreeAdapter.remove(position);
-                updateDb();
+                mPresenter.cleanProject();
             }
         });
         moreFollow.setAdapter(moreTreeAdapter);
-    }
-
-    private void updateDb() {
-        List<ProjectTreeBean> allList = new ArrayList<ProjectTreeBean>();
-        allList.addAll(myTreeList);
-        allList.addAll(moreTreeList);
-        mPresenter.saveProjectTree(allList);
     }
 
     public static void startAction(Context context) {
@@ -129,5 +122,16 @@ public class FollowManageActivity extends BaseActivity<FollowManagePresenter, Fo
         }
         myTreeAdapter.notifyDataSetChanged();
         moreTreeAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void updateProject() {
+        List<ProjectTreeBean> allList = new ArrayList<ProjectTreeBean>();
+        allList.addAll(myTreeList);
+        allList.addAll(moreTreeList);
+        for (ProjectTreeBean projectTreeBean:allList){
+            projectTreeBean.setLid(null);
+        }
+        mPresenter.saveProjectTree(allList);
     }
 }

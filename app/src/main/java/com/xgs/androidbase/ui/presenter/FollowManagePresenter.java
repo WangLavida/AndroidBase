@@ -6,6 +6,8 @@ import com.xgs.androidbase.ui.contract.FollowManageContract;
 
 import java.util.List;
 
+import io.reactivex.functions.Consumer;
+
 /**
  * Created by W.J on 2018/6/28.
  */
@@ -27,7 +29,22 @@ public class FollowManagePresenter extends FollowManageContract.Presenter {
     }
 
     @Override
+    public void cleanProject() {
+        mModel.cleanProject(mContext).subscribe(new Consumer<String>() {
+            @Override
+            public void accept(String s) throws Exception {
+                   mView.updateProject();
+            }
+        });
+    }
+
+    @Override
     public void saveProjectTree(List<ProjectTreeBean> projectTreeBeanList) {
-      mModel.saveProjectTree(mContext,projectTreeBeanList);
+      mModel.saveProjectTree(mContext,projectTreeBeanList).subscribe(new Consumer<String>() {
+          @Override
+          public void accept(String s) throws Exception {
+
+          }
+      });
     }
 }

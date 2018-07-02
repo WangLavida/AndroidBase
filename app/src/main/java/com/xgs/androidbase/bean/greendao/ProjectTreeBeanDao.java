@@ -24,13 +24,14 @@ public class ProjectTreeBeanDao extends AbstractDao<ProjectTreeBean, Long> {
      * Can be used for QueryBuilder and for referencing column names.
      */
     public static class Properties {
-        public final static Property CourseId = new Property(0, int.class, "courseId", false, "COURSE_ID");
-        public final static Property Id = new Property(1, Long.class, "id", true, "_id");
-        public final static Property Name = new Property(2, String.class, "name", false, "NAME");
-        public final static Property Order = new Property(3, int.class, "order", false, "ORDER");
-        public final static Property ParentChapterId = new Property(4, int.class, "parentChapterId", false, "PARENT_CHAPTER_ID");
-        public final static Property Visible = new Property(5, int.class, "visible", false, "VISIBLE");
-        public final static Property IsFollow = new Property(6, boolean.class, "isFollow", false, "IS_FOLLOW");
+        public final static Property Lid = new Property(0, Long.class, "lid", true, "_id");
+        public final static Property CourseId = new Property(1, int.class, "courseId", false, "COURSE_ID");
+        public final static Property Id = new Property(2, Long.class, "id", false, "ID");
+        public final static Property Name = new Property(3, String.class, "name", false, "NAME");
+        public final static Property Order = new Property(4, int.class, "order", false, "ORDER");
+        public final static Property ParentChapterId = new Property(5, int.class, "parentChapterId", false, "PARENT_CHAPTER_ID");
+        public final static Property Visible = new Property(6, int.class, "visible", false, "VISIBLE");
+        public final static Property IsFollow = new Property(7, boolean.class, "isFollow", false, "IS_FOLLOW");
     }
 
 
@@ -46,13 +47,14 @@ public class ProjectTreeBeanDao extends AbstractDao<ProjectTreeBean, Long> {
     public static void createTable(Database db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"PROJECT_TREE_BEAN\" (" + //
-                "\"COURSE_ID\" INTEGER NOT NULL ," + // 0: courseId
-                "\"_id\" INTEGER PRIMARY KEY ," + // 1: id
-                "\"NAME\" TEXT," + // 2: name
-                "\"ORDER\" INTEGER NOT NULL ," + // 3: order
-                "\"PARENT_CHAPTER_ID\" INTEGER NOT NULL ," + // 4: parentChapterId
-                "\"VISIBLE\" INTEGER NOT NULL ," + // 5: visible
-                "\"IS_FOLLOW\" INTEGER NOT NULL );"); // 6: isFollow
+                "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: lid
+                "\"COURSE_ID\" INTEGER NOT NULL ," + // 1: courseId
+                "\"ID\" INTEGER," + // 2: id
+                "\"NAME\" TEXT," + // 3: name
+                "\"ORDER\" INTEGER NOT NULL ," + // 4: order
+                "\"PARENT_CHAPTER_ID\" INTEGER NOT NULL ," + // 5: parentChapterId
+                "\"VISIBLE\" INTEGER NOT NULL ," + // 6: visible
+                "\"IS_FOLLOW\" INTEGER NOT NULL );"); // 7: isFollow
     }
 
     /** Drops the underlying database table. */
@@ -64,83 +66,95 @@ public class ProjectTreeBeanDao extends AbstractDao<ProjectTreeBean, Long> {
     @Override
     protected final void bindValues(DatabaseStatement stmt, ProjectTreeBean entity) {
         stmt.clearBindings();
-        stmt.bindLong(1, entity.getCourseId());
+ 
+        Long lid = entity.getLid();
+        if (lid != null) {
+            stmt.bindLong(1, lid);
+        }
+        stmt.bindLong(2, entity.getCourseId());
  
         Long id = entity.getId();
         if (id != null) {
-            stmt.bindLong(2, id);
+            stmt.bindLong(3, id);
         }
  
         String name = entity.getName();
         if (name != null) {
-            stmt.bindString(3, name);
+            stmt.bindString(4, name);
         }
-        stmt.bindLong(4, entity.getOrder());
-        stmt.bindLong(5, entity.getParentChapterId());
-        stmt.bindLong(6, entity.getVisible());
-        stmt.bindLong(7, entity.getIsFollow() ? 1L: 0L);
+        stmt.bindLong(5, entity.getOrder());
+        stmt.bindLong(6, entity.getParentChapterId());
+        stmt.bindLong(7, entity.getVisible());
+        stmt.bindLong(8, entity.getIsFollow() ? 1L: 0L);
     }
 
     @Override
     protected final void bindValues(SQLiteStatement stmt, ProjectTreeBean entity) {
         stmt.clearBindings();
-        stmt.bindLong(1, entity.getCourseId());
+ 
+        Long lid = entity.getLid();
+        if (lid != null) {
+            stmt.bindLong(1, lid);
+        }
+        stmt.bindLong(2, entity.getCourseId());
  
         Long id = entity.getId();
         if (id != null) {
-            stmt.bindLong(2, id);
+            stmt.bindLong(3, id);
         }
  
         String name = entity.getName();
         if (name != null) {
-            stmt.bindString(3, name);
+            stmt.bindString(4, name);
         }
-        stmt.bindLong(4, entity.getOrder());
-        stmt.bindLong(5, entity.getParentChapterId());
-        stmt.bindLong(6, entity.getVisible());
-        stmt.bindLong(7, entity.getIsFollow() ? 1L: 0L);
+        stmt.bindLong(5, entity.getOrder());
+        stmt.bindLong(6, entity.getParentChapterId());
+        stmt.bindLong(7, entity.getVisible());
+        stmt.bindLong(8, entity.getIsFollow() ? 1L: 0L);
     }
 
     @Override
     public Long readKey(Cursor cursor, int offset) {
-        return cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1);
+        return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
     }    
 
     @Override
     public ProjectTreeBean readEntity(Cursor cursor, int offset) {
         ProjectTreeBean entity = new ProjectTreeBean( //
-            cursor.getInt(offset + 0), // courseId
-            cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1), // id
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // name
-            cursor.getInt(offset + 3), // order
-            cursor.getInt(offset + 4), // parentChapterId
-            cursor.getInt(offset + 5), // visible
-            cursor.getShort(offset + 6) != 0 // isFollow
+            cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // lid
+            cursor.getInt(offset + 1), // courseId
+            cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2), // id
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // name
+            cursor.getInt(offset + 4), // order
+            cursor.getInt(offset + 5), // parentChapterId
+            cursor.getInt(offset + 6), // visible
+            cursor.getShort(offset + 7) != 0 // isFollow
         );
         return entity;
     }
      
     @Override
     public void readEntity(Cursor cursor, ProjectTreeBean entity, int offset) {
-        entity.setCourseId(cursor.getInt(offset + 0));
-        entity.setId(cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1));
-        entity.setName(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setOrder(cursor.getInt(offset + 3));
-        entity.setParentChapterId(cursor.getInt(offset + 4));
-        entity.setVisible(cursor.getInt(offset + 5));
-        entity.setIsFollow(cursor.getShort(offset + 6) != 0);
+        entity.setLid(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
+        entity.setCourseId(cursor.getInt(offset + 1));
+        entity.setId(cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2));
+        entity.setName(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setOrder(cursor.getInt(offset + 4));
+        entity.setParentChapterId(cursor.getInt(offset + 5));
+        entity.setVisible(cursor.getInt(offset + 6));
+        entity.setIsFollow(cursor.getShort(offset + 7) != 0);
      }
     
     @Override
     protected final Long updateKeyAfterInsert(ProjectTreeBean entity, long rowId) {
-        entity.setId(rowId);
+        entity.setLid(rowId);
         return rowId;
     }
     
     @Override
     public Long getKey(ProjectTreeBean entity) {
         if(entity != null) {
-            return entity.getId();
+            return entity.getLid();
         } else {
             return null;
         }
@@ -148,7 +162,7 @@ public class ProjectTreeBeanDao extends AbstractDao<ProjectTreeBean, Long> {
 
     @Override
     public boolean hasKey(ProjectTreeBean entity) {
-        return entity.getId() != null;
+        return entity.getLid() != null;
     }
 
     @Override
