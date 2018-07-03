@@ -1,6 +1,5 @@
 package com.xgs.androidbase.ui.activity;
 
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,7 +8,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,19 +18,18 @@ import com.xgs.androidbase.R;
 import com.xgs.androidbase.adapter.MainFragmentPagerAdapter;
 import com.xgs.androidbase.base.BaseActivity;
 import com.xgs.androidbase.ui.fragment.GankFragment;
-import com.xgs.androidbase.ui.fragment.MainFragment;
+import com.xgs.androidbase.ui.fragment.ProjectFragment;
 import com.xgs.androidbase.ui.fragment.ToolFragment;
 import com.xgs.androidbase.ui.fragment.WanFragment;
 import com.xgs.androidbase.util.GlideUtil;
 import com.xgs.androidbase.util.LogUtil;
-import com.xgs.androidbase.util.ViewUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 
-public class MainActivity extends BaseActivity implements MainFragment.OnFragmentInteractionListener, WanFragment.OnFragmentInteractionListener, GankFragment.OnFragmentInteractionListener, ToolFragment.OnFragmentInteractionListener {
+public class MainActivity extends BaseActivity implements ProjectFragment.OnFragmentInteractionListener, WanFragment.OnFragmentInteractionListener, GankFragment.OnFragmentInteractionListener, ToolFragment.OnFragmentInteractionListener {
     @BindView(R.id.nav_view)
     NavigationView navView;
     @BindView(R.id.drawer_layout)

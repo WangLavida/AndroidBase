@@ -32,6 +32,7 @@ public class ProjectTreeBeanDao extends AbstractDao<ProjectTreeBean, Long> {
         public final static Property ParentChapterId = new Property(5, int.class, "parentChapterId", false, "PARENT_CHAPTER_ID");
         public final static Property Visible = new Property(6, int.class, "visible", false, "VISIBLE");
         public final static Property IsFollow = new Property(7, boolean.class, "isFollow", false, "IS_FOLLOW");
+        public final static Property IsFixed = new Property(8, boolean.class, "isFixed", false, "IS_FIXED");
     }
 
 
@@ -54,7 +55,8 @@ public class ProjectTreeBeanDao extends AbstractDao<ProjectTreeBean, Long> {
                 "\"ORDER\" INTEGER NOT NULL ," + // 4: order
                 "\"PARENT_CHAPTER_ID\" INTEGER NOT NULL ," + // 5: parentChapterId
                 "\"VISIBLE\" INTEGER NOT NULL ," + // 6: visible
-                "\"IS_FOLLOW\" INTEGER NOT NULL );"); // 7: isFollow
+                "\"IS_FOLLOW\" INTEGER NOT NULL ," + // 7: isFollow
+                "\"IS_FIXED\" INTEGER NOT NULL );"); // 8: isFixed
     }
 
     /** Drops the underlying database table. */
@@ -86,6 +88,7 @@ public class ProjectTreeBeanDao extends AbstractDao<ProjectTreeBean, Long> {
         stmt.bindLong(6, entity.getParentChapterId());
         stmt.bindLong(7, entity.getVisible());
         stmt.bindLong(8, entity.getIsFollow() ? 1L: 0L);
+        stmt.bindLong(9, entity.getIsFixed() ? 1L: 0L);
     }
 
     @Override
@@ -111,6 +114,7 @@ public class ProjectTreeBeanDao extends AbstractDao<ProjectTreeBean, Long> {
         stmt.bindLong(6, entity.getParentChapterId());
         stmt.bindLong(7, entity.getVisible());
         stmt.bindLong(8, entity.getIsFollow() ? 1L: 0L);
+        stmt.bindLong(9, entity.getIsFixed() ? 1L: 0L);
     }
 
     @Override
@@ -128,7 +132,8 @@ public class ProjectTreeBeanDao extends AbstractDao<ProjectTreeBean, Long> {
             cursor.getInt(offset + 4), // order
             cursor.getInt(offset + 5), // parentChapterId
             cursor.getInt(offset + 6), // visible
-            cursor.getShort(offset + 7) != 0 // isFollow
+            cursor.getShort(offset + 7) != 0, // isFollow
+            cursor.getShort(offset + 8) != 0 // isFixed
         );
         return entity;
     }
@@ -143,6 +148,7 @@ public class ProjectTreeBeanDao extends AbstractDao<ProjectTreeBean, Long> {
         entity.setParentChapterId(cursor.getInt(offset + 5));
         entity.setVisible(cursor.getInt(offset + 6));
         entity.setIsFollow(cursor.getShort(offset + 7) != 0);
+        entity.setIsFixed(cursor.getShort(offset + 8) != 0);
      }
     
     @Override

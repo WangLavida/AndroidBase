@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.chad.library.adapter.base.BaseItemDraggableAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.xgs.androidbase.R;
@@ -16,7 +17,7 @@ import java.util.List;
  * Created by W.J on 2018/6/28.
  */
 
-public class ProjectTreeAdapter extends BaseQuickAdapter<ProjectTreeBean, BaseViewHolder> {
+public class ProjectTreeAdapter extends BaseItemDraggableAdapter<ProjectTreeBean, BaseViewHolder> {
     private boolean isMy;
 
     public ProjectTreeAdapter(int layoutResId, @Nullable List<ProjectTreeBean> data, boolean isMy) {
@@ -28,7 +29,7 @@ public class ProjectTreeAdapter extends BaseQuickAdapter<ProjectTreeBean, BaseVi
     protected void convert(BaseViewHolder helper, ProjectTreeBean item) {
         helper.setText(R.id.project_name, item.getName());
         if(isMy){
-            if(helper.getLayoutPosition()<3){
+            if(item.isFixed()){
                 helper.setBackgroundRes(R.id.project_name,R.drawable.tree_item_fixed_bg);
                 helper.setTextColor(R.id.project_name,mContext.getResources().getColor(R.color.white));
             }else{
@@ -37,7 +38,6 @@ public class ProjectTreeAdapter extends BaseQuickAdapter<ProjectTreeBean, BaseVi
             }
         }
     }
-
     @Override
     public void addData(@NonNull ProjectTreeBean data) {
         getData().add(data);

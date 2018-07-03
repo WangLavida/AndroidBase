@@ -9,6 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="bg">#FFFFFFFF</color>
     <color name="text_default">#888888</color>
+    <color name="light_color">#bbbbbb</color>
     <color name="text_title_color">#333333</color>
 
 </resources>

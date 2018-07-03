@@ -86,15 +86,15 @@ public class WelcomeActivity extends BaseActivity<WelcomePresenter, WelcomeModel
 
     @Override
     public void saveProjectTree(BaseWanBean<ProjectTreeBean> baseWanBean) {
-        LogUtil.i("数据类型数量" + baseWanBean.getData().size());
         this.baseWanBean = baseWanBean;
         mPresenter.getDbProject();
     }
 
     @Override
     public void getDbProject(List<ProjectTreeBean> projectTreeBeanList) {
-        LogUtil.i("数据类型数量1" + projectTreeBeanList.size());
-        mPresenter.saveProjectTree(PorjectListConvert.convertList(baseWanBean,projectTreeBeanList));
+        if(PorjectListConvert.convertList(baseWanBean,projectTreeBeanList).size() != 0){
+            mPresenter.saveProjectTree(PorjectListConvert.convertList(baseWanBean,projectTreeBeanList));
+        }
         startMain();
     }
 }

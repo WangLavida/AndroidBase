@@ -49,4 +49,5 @@ public class WelcomeModel implements WelcomeContract.Model {
             }
         });
     }
+
 }

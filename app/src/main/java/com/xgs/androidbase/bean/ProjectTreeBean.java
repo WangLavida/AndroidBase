@@ -3,6 +3,7 @@ package com.xgs.androidbase.bean;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 
+import java.io.Serializable;
 import java.util.List;
 import org.greenrobot.greendao.annotation.Generated;
 
@@ -10,8 +11,8 @@ import org.greenrobot.greendao.annotation.Generated;
  * Created by W.J on 2018/6/26.
  */
 @Entity
-public class ProjectTreeBean {
-
+public class ProjectTreeBean implements Serializable{
+    static final long serialVersionUID = 42L;
     /**
      * children : []
      * courseId : 13
@@ -30,7 +31,18 @@ public class ProjectTreeBean {
     private int order;
     private int parentChapterId;
     private int visible;
+    //关注
     private boolean isFollow;
+    //固定
+    private boolean isFixed;
+
+    public boolean isFixed() {
+        return isFixed;
+    }
+
+    public void setFixed(boolean fixed) {
+        isFixed = fixed;
+    }
 
     public Long getLid() {
         return lid;
@@ -48,9 +60,9 @@ public class ProjectTreeBean {
         isFollow = follow;
     }
 
-    @Generated(hash = 1373356533)
+    @Generated(hash = 1618667555)
     public ProjectTreeBean(Long lid, int courseId, Long id, String name, int order,
-            int parentChapterId, int visible, boolean isFollow) {
+            int parentChapterId, int visible, boolean isFollow, boolean isFixed) {
         this.lid = lid;
         this.courseId = courseId;
         this.id = id;
@@ -59,6 +71,7 @@ public class ProjectTreeBean {
         this.parentChapterId = parentChapterId;
         this.visible = visible;
         this.isFollow = isFollow;
+        this.isFixed = isFixed;
     }
 
     public ProjectTreeBean(Long id, String name, int order,
@@ -128,6 +141,14 @@ public class ProjectTreeBean {
 
     public void setIsFollow(boolean isFollow) {
         this.isFollow = isFollow;
+    }
+
+    public boolean getIsFixed() {
+        return this.isFixed;
+    }
+
+    public void setIsFixed(boolean isFixed) {
+        this.isFixed = isFixed;
     }
 
 

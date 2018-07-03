@@ -31,7 +31,6 @@ public class WelcomePresenter extends WelcomeContract.Presenter {
             }
         });
     }
-
     @Override
     public void getDbProject() {
         mModel.getDbProject(mContext).subscribe(new RxObserver<List<ProjectTreeBean>>(mContext, mRxManager) {

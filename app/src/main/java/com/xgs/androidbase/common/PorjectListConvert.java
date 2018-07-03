@@ -13,6 +13,7 @@ import java.util.List;
 public class PorjectListConvert {
     /**
      * 分类列表和数据库合并
+     *
      * @param baseWanBean
      * @param projectTreeDB
      * @return
@@ -20,16 +21,20 @@ public class PorjectListConvert {
     public static List<ProjectTreeBean> convertList(BaseWanBean<ProjectTreeBean> baseWanBean, List<ProjectTreeBean> projectTreeDB) {
         List<ProjectTreeBean> projectTreeBeans = new ArrayList<ProjectTreeBean>();
         for (ProjectTreeBean projectTreeBean : baseWanBean.getData()) {
+            boolean isExist = false;
             for (ProjectTreeBean projectTreeBean1 : projectTreeDB) {
                 if (projectTreeBean.getId().equals(projectTreeBean1.getId())) {
-                    projectTreeBean.setFollow(projectTreeBean1.isFollow());
+                    isExist = true;
                 }
             }
-            projectTreeBeans.add(new ProjectTreeBean(projectTreeBean.getId(), projectTreeBean.getName(), projectTreeBean.getOrder(), projectTreeBean.getParentChapterId(), projectTreeBean.getVisible(), projectTreeBean.isFollow()));
+            if(!isExist){
+                projectTreeBeans.add(projectTreeBean);
+            }
         }
         if (projectTreeDB.size() == 0) {
-            for (int i = 0; i <= 3; i++) {
+            for (int i = 0; i <= 2; i++) {
                 projectTreeBeans.get(i).setFollow(true);
+                projectTreeBeans.get(i).setFixed(true);
             }
         }
         return projectTreeBeans;

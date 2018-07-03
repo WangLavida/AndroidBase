@@ -29,6 +29,7 @@ public abstract class BaseFragment<T extends BasePresenter, E extends BaseModel>
 
     //初始化view
     public abstract void initView();
+    public abstract void initData();
 
     public View rootView;
 
@@ -40,8 +41,23 @@ public abstract class BaseFragment<T extends BasePresenter, E extends BaseModel>
         mContext = getActivity();
         mPresenter = TUtil.getT(this, 0);
         mModel = TUtil.getT(this, 1);
+        if (mPresenter != null) {
+            mPresenter.mContext = mContext;
+        }
+        if (this instanceof BaseView&&mPresenter != null) {
+            mPresenter.setVM(this, mModel);
+        }
         initPresenter();
         initView();
+        initData();
         return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (mPresenter != null) {
+            mPresenter.detachMV();
+        }
     }
 }

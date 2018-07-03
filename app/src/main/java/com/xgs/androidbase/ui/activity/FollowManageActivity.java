@@ -6,9 +6,12 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.callback.ItemDragAndSwipeCallback;
+import com.chad.library.adapter.base.listener.OnItemDragListener;
 import com.xgs.androidbase.R;
 import com.xgs.androidbase.adapter.ProjectTreeAdapter;
 import com.xgs.androidbase.base.BaseActivity;
@@ -79,12 +82,30 @@ public class FollowManageActivity extends BaseActivity<FollowManagePresenter, Fo
         myTreeAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (position > 2) {
+                if(!myTreeList.get(position).isFixed()) {
                     myTreeList.get(position).setFollow(false);
                     moreTreeAdapter.addData(myTreeList.get(position));
                     myTreeAdapter.remove(position);
                     mPresenter.cleanProject();
                 }
+            }
+        });
+        ItemDragAndSwipeCallback itemDragAndSwipeCallback = new ItemDragAndSwipeCallback(myTreeAdapter);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemDragAndSwipeCallback);
+        itemTouchHelper.attachToRecyclerView(myFollow);
+        myTreeAdapter.enableDragItem(itemTouchHelper, R.id.project_name, true);
+        myTreeAdapter.setOnItemDragListener(new OnItemDragListener() {
+            @Override
+            public void onItemDragStart(RecyclerView.ViewHolder viewHolder, int pos) {
+            }
+
+            @Override
+            public void onItemDragMoving(RecyclerView.ViewHolder source, int from, RecyclerView.ViewHolder target, int to) {
+                mPresenter.cleanProject();
+            }
+
+            @Override
+            public void onItemDragEnd(RecyclerView.ViewHolder viewHolder, int pos) {
             }
         });
         myFollow.setAdapter(myTreeAdapter);
@@ -129,7 +150,7 @@ public class FollowManageActivity extends BaseActivity<FollowManagePresenter, Fo
         List<ProjectTreeBean> allList = new ArrayList<ProjectTreeBean>();
         allList.addAll(myTreeList);
         allList.addAll(moreTreeList);
-        for (ProjectTreeBean projectTreeBean:allList){
+        for (ProjectTreeBean projectTreeBean : allList) {
             projectTreeBean.setLid(null);
         }
         mPresenter.saveProjectTree(allList);
