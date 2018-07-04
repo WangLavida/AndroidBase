@@ -3,6 +3,7 @@ package com.xgs.androidbase.ui.fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.xgs.androidbase.R;
 import com.xgs.androidbase.adapter.ProjectListAdapter;
 import com.xgs.androidbase.base.BaseFragment;
@@ -21,6 +26,7 @@ import com.xgs.androidbase.ui.contract.ProjectContract;
 import com.xgs.androidbase.ui.model.ProjectModel;
 import com.xgs.androidbase.ui.presenter.ProjectPresenter;
 import com.xgs.androidbase.util.LogUtil;
+import com.xgs.androidbase.util.ToastUitl;
 import com.xgs.androidbase.view.SpacesItemDecoration;
 
 import java.util.ArrayList;
@@ -45,11 +51,15 @@ public class ProjectFragment extends BaseFragment<ProjectPresenter, ProjectModel
     @BindView(R.id.recycler)
     RecyclerView recycler;
     Unbinder unbinder;
+    @BindView(R.id.refresh_layout)
+    SmartRefreshLayout refreshLayout;
+    Unbinder unbinder1;
     private ProjectListAdapter projectListAdapter;
     // TODO: Rename and change types of parameters
     private ProjectTreeBean projectTreeBean;
     private List<ProjectBean> projectBeanList = new ArrayList<ProjectBean>();
     private OnFragmentInteractionListener mListener;
+    private int pageNo = 1;
 
     // TODO: Rename and change types and number of parameters
     public static ProjectFragment newInstance(ProjectTreeBean projectTreeBean) {
@@ -82,11 +92,30 @@ public class ProjectFragment extends BaseFragment<ProjectPresenter, ProjectModel
         recycler.setLayoutManager(new LinearLayoutManager(mContext));
         recycler.addItemDecoration(new SpacesItemDecoration(mContext, LinearLayoutManager.VERTICAL, 10, getResources().getColor(R.color.light_color)));
         recycler.setAdapter(projectListAdapter);
+        initRefresh();
+    }
+
+    private void initRefresh() {
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                pageNo = 1;
+                mPresenter.getProjectList(pageNo, projectTreeBean.getId());
+            }
+        });
+        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                pageNo = pageNo + 1;
+                mPresenter.getProjectList(pageNo, projectTreeBean.getId());
+            }
+        });
+
     }
 
     @Override
     public void initData() {
-        mPresenter.getProjectList(1, projectTreeBean.getId());
+        mPresenter.getProjectList(pageNo, projectTreeBean.getId());
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -116,14 +145,32 @@ public class ProjectFragment extends BaseFragment<ProjectPresenter, ProjectModel
     @Override
     public void returnPojectList(ProjectBaseBean projectBaseBean) {
         LogUtil.i(projectBaseBean.getData().getDatas().size());
-        projectBeanList.addAll(projectBaseBean.getData().getDatas());
-        projectListAdapter.notifyDataSetChanged();
+        if (projectBaseBean.getData().getDatas().size() == 0) {
+            ToastUitl.showShort("加载完毕");
+           refreshLayout.finishLoadMoreWithNoMoreData();
+        } else {
+            if (pageNo == 1) {
+                projectBeanList.clear();
+            }
+            projectBeanList.addAll(projectBaseBean.getData().getDatas());
+            projectListAdapter.notifyDataSetChanged();
+        }
+        refreshLayout.finishRefresh();
+        refreshLayout.finishLoadMore();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        unbinder1 = ButterKnife.bind(this, rootView);
+        return rootView;
     }
 
     /**

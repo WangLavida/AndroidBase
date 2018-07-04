@@ -68,4 +68,6 @@ dependencies {
     implementation 'org.greenrobot:greendao:3.2.2'
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'
 
+    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-10'
+
 }
