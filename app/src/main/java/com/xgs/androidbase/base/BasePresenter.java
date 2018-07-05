@@ -13,10 +13,18 @@ public abstract class BasePresenter<T, E> {
     public T mView;
     public E mModel;
     public RxManager mRxManager = new RxManager();
+
     public void setVM(T v, E m) {
         this.mView = v;
         this.mModel = m;
+        this.onStart();
     }
+
+    public void onStart() {
+    }
+
+    ;
+
     /**
      * 解绑IModel和IView
      */

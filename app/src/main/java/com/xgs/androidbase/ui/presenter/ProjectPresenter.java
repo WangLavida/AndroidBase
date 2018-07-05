@@ -10,6 +10,11 @@ import com.xgs.androidbase.ui.contract.ProjectContract;
 
 public class ProjectPresenter extends ProjectContract.Presenter {
     @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
     public void getProjectList(int pageNo,Long cid) {
         mModel.getProjectList(pageNo,cid).subscribe(new RxObserver<ProjectBaseBean>(mContext,mRxManager) {
             @Override
