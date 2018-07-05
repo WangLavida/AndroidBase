@@ -1,5 +1,8 @@
 package com.xgs.androidbase.ui.activity;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,12 +14,17 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.xgs.androidbase.R;
 import com.xgs.androidbase.adapter.MainFragmentPagerAdapter;
 import com.xgs.androidbase.base.BaseActivity;
+import com.xgs.androidbase.common.Constant;
+import com.xgs.androidbase.common.rx.RxBus;
+import com.xgs.androidbase.common.rx.RxManager;
+import com.xgs.androidbase.common.rx.RxObserver;
 import com.xgs.androidbase.ui.fragment.GankFragment;
 import com.xgs.androidbase.ui.fragment.ProjectFragment;
 import com.xgs.androidbase.ui.fragment.ToolFragment;
@@ -42,6 +50,7 @@ public class MainActivity extends BaseActivity implements ProjectFragment.OnFrag
     private MainFragmentPagerAdapter mainFragmentPagerAdapter;
     private List<String> tabTitles = new ArrayList<String>();
     private int[] tabIcons = {R.drawable.selector_and_image, R.drawable.selector_gank_image, R.drawable.selector_tool_image};
+    private int tabLayoutHeight;
 
     @Override
     public int getLayoutId() {
@@ -57,6 +66,23 @@ public class MainActivity extends BaseActivity implements ProjectFragment.OnFrag
     public void initView() {
         initDrawerLayout();
         initViewPager();
+        RxBus.getInstance().toObservable(String.class).subscribe(new RxObserver<String>(mContext,new RxManager()) {
+            @Override
+            public void onSuccess(String s) {
+                if (s.equals(Constant.MENU_SHOW)) {
+                    LogUtil.i(Constant.MENU_SHOW);
+                    setMneu(true);
+                }else if (s.equals(Constant.MENU_HIDE)) {
+                    LogUtil.i(Constant.MENU_HIDE);
+                    setMneu(false);
+                }
+            }
+
+            @Override
+            public void onFail(Throwable e, boolean isNetWorkError) {
+
+            }
+        });
     }
 
     @Override
@@ -67,6 +93,8 @@ public class MainActivity extends BaseActivity implements ProjectFragment.OnFrag
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        tabLayout.measure(0,0);
+        tabLayoutHeight=tabLayout.getMeasuredHeight();
     }
 
     private void initViewPager() {
@@ -161,6 +189,31 @@ public class MainActivity extends BaseActivity implements ProjectFragment.OnFrag
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    private void setMneu(boolean isShow) {
+        LogUtil.i(tabLayoutHeight);
+        final ViewGroup.LayoutParams layoutParams = tabLayout.getLayoutParams();
+        ValueAnimator valueAnimator;
+        ObjectAnimator alpha;
+        if (isShow) {
+            valueAnimator = ValueAnimator.ofInt(0, tabLayoutHeight);
+            alpha = ObjectAnimator.ofFloat(tabLayout, "alpha", 0, 1);
+        } else {
+            valueAnimator = ValueAnimator.ofInt(tabLayoutHeight, 0);
+            alpha = ObjectAnimator.ofFloat(tabLayout, "alpha", 1, 0);
+        }
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                layoutParams.height = (int) valueAnimator.getAnimatedValue();
+                tabLayout.setLayoutParams(layoutParams);
+            }
+        });
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.setDuration(500);
+        animatorSet.playTogether(valueAnimator, alpha);
+        animatorSet.start();
     }
 }
 

@@ -21,6 +21,7 @@ public interface ProjectContract {
 
     interface View extends BaseView{
         void returnPojectList(ProjectBaseBean projectBaseBean);
+        void listToTop();
     }
 
     abstract static class Presenter extends BasePresenter<View,Model>{

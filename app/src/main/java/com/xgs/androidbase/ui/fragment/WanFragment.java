@@ -2,10 +2,15 @@ package com.xgs.androidbase.ui.fragment;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,6 +18,8 @@ import com.xgs.androidbase.R;
 import com.xgs.androidbase.adapter.MainFragmentPagerAdapter;
 import com.xgs.androidbase.base.BaseFragment;
 import com.xgs.androidbase.bean.ProjectTreeBean;
+import com.xgs.androidbase.common.Constant;
+import com.xgs.androidbase.common.rx.RxBus;
 import com.xgs.androidbase.ui.activity.FollowManageActivity;
 import com.xgs.androidbase.ui.contract.WanContract;
 import com.xgs.androidbase.ui.model.WanModel;
@@ -23,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
@@ -48,6 +56,10 @@ public class WanFragment extends BaseFragment<WanPresenter, WanModel> implements
     Unbinder unbinder;
     @BindView(R.id.add_follow)
     ImageView addFollow;
+
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
+    Unbinder unbinder1;
     private List<String> tabTitles = new ArrayList<String>();
     private List<Fragment> fragmentList = new ArrayList<Fragment>();
     private MainFragmentPagerAdapter mainFragmentPagerAdapter;
@@ -85,6 +97,12 @@ public class WanFragment extends BaseFragment<WanPresenter, WanModel> implements
     @Override
     public void initView() {
         initViewPager();
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RxBus.getInstance().post(Constant.LIST_TO_TOP);
+            }
+        });
     }
 
     private void initViewPager() {
@@ -106,7 +124,7 @@ public class WanFragment extends BaseFragment<WanPresenter, WanModel> implements
 
     @Override
     public void initData() {
-      mPresenter.getFollowProject();
+        mPresenter.getFollowProject();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -156,6 +174,14 @@ public class WanFragment extends BaseFragment<WanPresenter, WanModel> implements
             fragmentList.add(newFragment(projectTreeBean));
         }
         mainFragmentPagerAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        unbinder1 = ButterKnife.bind(this, rootView);
+        return rootView;
     }
 
     /**

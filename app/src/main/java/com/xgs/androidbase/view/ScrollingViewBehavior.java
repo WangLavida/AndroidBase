@@ -8,6 +8,8 @@ import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.xgs.androidbase.common.Constant;
+import com.xgs.androidbase.common.rx.RxBus;
 import com.xgs.androidbase.util.LogUtil;
 
 import java.lang.reflect.Field;
@@ -30,11 +32,12 @@ public class ScrollingViewBehavior extends FloatingActionButton.Behavior {
     @Override
     public void onNestedScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull FloatingActionButton child, @NonNull View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed, int type) {
         super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, type);
-        LogUtil.i(dyConsumed);
         if (dyConsumed > 10 && child.getVisibility() == View.VISIBLE) {
             child.setVisibility(View.INVISIBLE);
+            RxBus.getInstance().post(Constant.MENU_HIDE);
         } else if (dyConsumed < -10 && child.getVisibility() != View.VISIBLE) {
             child.show();
+            RxBus.getInstance().post(Constant.MENU_SHOW);
         }
     }
 }

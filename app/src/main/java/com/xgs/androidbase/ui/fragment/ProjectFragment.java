@@ -160,6 +160,11 @@ public class ProjectFragment extends BaseFragment<ProjectPresenter, ProjectModel
     }
 
     @Override
+    public void listToTop() {
+        recycler.scrollToPosition(0);
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
