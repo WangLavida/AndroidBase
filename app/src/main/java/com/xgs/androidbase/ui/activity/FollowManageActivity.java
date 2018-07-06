@@ -106,6 +106,7 @@ public class FollowManageActivity extends BaseActivity<FollowManagePresenter, Fo
             @Override
             public void onItemDragMoving(RecyclerView.ViewHolder source, int from, RecyclerView.ViewHolder target, int to) {
                 mPresenter.cleanProject();
+                RxBus.getInstance().post(new RxBusBean(Constant.SWAP_TREE, myTreeList.get(to),from,to));
             }
 
             @Override

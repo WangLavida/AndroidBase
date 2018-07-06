@@ -18,12 +18,15 @@ import com.xgs.androidbase.R;
 import com.xgs.androidbase.adapter.MainFragmentPagerAdapter;
 import com.xgs.androidbase.base.BaseFragment;
 import com.xgs.androidbase.bean.ProjectTreeBean;
+import com.xgs.androidbase.bean.RxBusBean;
 import com.xgs.androidbase.common.Constant;
 import com.xgs.androidbase.common.rx.RxBus;
 import com.xgs.androidbase.ui.activity.FollowManageActivity;
 import com.xgs.androidbase.ui.contract.WanContract;
 import com.xgs.androidbase.ui.model.WanModel;
 import com.xgs.androidbase.ui.presenter.WanPresenter;
+import com.xgs.androidbase.util.LogUtil;
+import com.xgs.androidbase.util.ToastUitl;
 import com.xgs.androidbase.util.ViewUtil;
 
 import java.util.ArrayList;
@@ -56,7 +59,6 @@ public class WanFragment extends BaseFragment<WanPresenter, WanModel> implements
     Unbinder unbinder;
     @BindView(R.id.add_follow)
     ImageView addFollow;
-
     @BindView(R.id.fab)
     FloatingActionButton fab;
     Unbinder unbinder1;
@@ -96,7 +98,16 @@ public class WanFragment extends BaseFragment<WanPresenter, WanModel> implements
 
     @Override
     public void initView() {
+        toolBar.setTitle("");
+        titleText.setText("首页");
+        toolBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mListener.openDrawer();
+            }
+        });
         initViewPager();
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,9 +117,6 @@ public class WanFragment extends BaseFragment<WanPresenter, WanModel> implements
     }
 
     private void initViewPager() {
-        toolBar.setTitle("");
-        titleText.setText("首页");
-
         mainFragmentPagerAdapter = new MainFragmentPagerAdapter(getChildFragmentManager(), fragmentList, tabTitles);
         viewPager.setAdapter(mainFragmentPagerAdapter);
         viewPager.setCurrentItem(0);
@@ -137,6 +145,7 @@ public class WanFragment extends BaseFragment<WanPresenter, WanModel> implements
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        LogUtil.i("onAttach");
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
@@ -178,29 +187,22 @@ public class WanFragment extends BaseFragment<WanPresenter, WanModel> implements
 
     @Override
     public void addTree(ProjectTreeBean projectTreeBean) {
-        tabTitles.add(projectTreeBean.getName());
-        fragmentList.add(newFragment(projectTreeBean));
-        mainFragmentPagerAdapter.notifyDataSetChanged();
+        mainFragmentPagerAdapter.addItem(newFragment(projectTreeBean), projectTreeBean.getName());
     }
 
     @Override
     public void removeTree(ProjectTreeBean projectTreeBean) {
+
         for (int i = 0; i < tabTitles.size(); i++) {
             if (tabTitles.get(i).equals(projectTreeBean.getName())) {
-                tabTitles.remove(i);
-                fragmentList.remove(i);
-                viewPager.removeViewAt(i);
+                mainFragmentPagerAdapter.delItem(i);
             }
         }
-        mainFragmentPagerAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder1 = ButterKnife.bind(this, rootView);
-        return rootView;
+    public void swapTree(RxBusBean rxBusBean) {
+        mainFragmentPagerAdapter.swapItems(rxBusBean.fromPos, rxBusBean.toPos);
     }
 
     /**
@@ -216,5 +218,6 @@ public class WanFragment extends BaseFragment<WanPresenter, WanModel> implements
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+        void openDrawer();
     }
 }

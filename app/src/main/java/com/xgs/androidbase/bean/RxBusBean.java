@@ -7,6 +7,31 @@ package com.xgs.androidbase.bean;
 public class RxBusBean {
     public String TAG;
     public Object content;
+    public int fromPos;
+    public int toPos;
+
+    public RxBusBean(String TAG, Object content, int fromPos, int toPos) {
+        this.TAG = TAG;
+        this.content = content;
+        this.fromPos = fromPos;
+        this.toPos = toPos;
+    }
+
+    public int getFromPos() {
+        return fromPos;
+    }
+
+    public void setFromPos(int fromPos) {
+        this.fromPos = fromPos;
+    }
+
+    public int getToPos() {
+        return toPos;
+    }
+
+    public void setToPos(int toPos) {
+        this.toPos = toPos;
+    }
 
     public RxBusBean(String TAG, Object content) {
         this.TAG = TAG;

@@ -11,6 +11,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -189,6 +190,11 @@ public class MainActivity extends BaseActivity implements ProjectFragment.OnFrag
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    @Override
+    public void openDrawer() {
+        drawerLayout.openDrawer(Gravity.START);
     }
 
     private void setMneu(boolean isShow) {

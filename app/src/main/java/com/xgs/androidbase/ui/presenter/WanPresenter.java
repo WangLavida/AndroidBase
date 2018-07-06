@@ -27,6 +27,8 @@ public class WanPresenter extends WanContract.Presenter {
                    mView.addTree((ProjectTreeBean) rxBusBean.getContent());
                 } else if (rxBusBean.getTAG().equals(Constant.REMOVE_TREE)) {
                     mView.removeTree((ProjectTreeBean) rxBusBean.getContent());
+                }else if (rxBusBean.getTAG().equals(Constant.SWAP_TREE)) {
+                    mView.swapTree(rxBusBean);
                 }
             }
 

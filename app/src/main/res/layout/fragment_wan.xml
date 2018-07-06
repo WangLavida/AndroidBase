@@ -9,6 +9,7 @@
         android:layout_height="wrap_content">
 
         <android.support.v7.widget.Toolbar
+            app:navigationIcon="@mipmap/menu_icon"
             android:id="@+id/tool_bar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/toolbar_height"

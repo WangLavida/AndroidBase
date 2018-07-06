@@ -3,6 +3,7 @@ package com.xgs.androidbase.ui.contract;
 import com.xgs.androidbase.base.BasePresenter;
 import com.xgs.androidbase.base.BaseView;
 import com.xgs.androidbase.bean.ProjectTreeBean;
+import com.xgs.androidbase.bean.RxBusBean;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ public interface WanContract {
         void returnFollowProject(List<ProjectTreeBean> projectTreeBeanList);
         void addTree(ProjectTreeBean projectTreeBean);
         void removeTree(ProjectTreeBean projectTreeBean);
+        void swapTree(RxBusBean rxBusBean);
     }
 
     abstract static class Presenter extends BasePresenter<View,Model> {

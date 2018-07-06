@@ -10,4 +10,5 @@ public class Constant {
     public static final String MENU_HIDE = "MENU_HIDE";
     public static final String REMOVE_TREE = "REMOVE_TREE";
     public static final String ADD_TREE = "ADD_TREE";
+    public static final String SWAP_TREE = "SWAP_TREE";
 }
