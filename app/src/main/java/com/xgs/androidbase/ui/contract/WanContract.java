@@ -16,6 +16,8 @@ public interface WanContract {
 
     interface View extends BaseView{
         void returnFollowProject(List<ProjectTreeBean> projectTreeBeanList);
+        void addTree(ProjectTreeBean projectTreeBean);
+        void removeTree(ProjectTreeBean projectTreeBean);
     }
 
     abstract static class Presenter extends BasePresenter<View,Model> {

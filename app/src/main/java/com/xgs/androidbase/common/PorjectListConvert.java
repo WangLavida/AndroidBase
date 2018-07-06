@@ -27,7 +27,7 @@ public class PorjectListConvert {
                     isExist = true;
                 }
             }
-            if(!isExist){
+            if (!isExist) {
                 projectTreeBeans.add(projectTreeBean);
             }
         }

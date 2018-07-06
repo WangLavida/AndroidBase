@@ -177,6 +177,25 @@ public class WanFragment extends BaseFragment<WanPresenter, WanModel> implements
     }
 
     @Override
+    public void addTree(ProjectTreeBean projectTreeBean) {
+        tabTitles.add(projectTreeBean.getName());
+        fragmentList.add(newFragment(projectTreeBean));
+        mainFragmentPagerAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void removeTree(ProjectTreeBean projectTreeBean) {
+        for (int i = 0; i < tabTitles.size(); i++) {
+            if (tabTitles.get(i).equals(projectTreeBean.getName())) {
+                tabTitles.remove(i);
+                fragmentList.remove(i);
+                viewPager.removeViewAt(i);
+            }
+        }
+        mainFragmentPagerAdapter.notifyDataSetChanged();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);

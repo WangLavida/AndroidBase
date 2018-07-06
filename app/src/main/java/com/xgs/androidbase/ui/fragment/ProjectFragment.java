@@ -50,10 +50,8 @@ public class ProjectFragment extends BaseFragment<ProjectPresenter, ProjectModel
     private static final String ARG_PARAM1 = "ARG_PARAM1";
     @BindView(R.id.recycler)
     RecyclerView recycler;
-    Unbinder unbinder;
     @BindView(R.id.refresh_layout)
     SmartRefreshLayout refreshLayout;
-    Unbinder unbinder1;
     private ProjectListAdapter projectListAdapter;
     // TODO: Rename and change types of parameters
     private ProjectTreeBean projectTreeBean;
@@ -167,15 +165,6 @@ public class ProjectFragment extends BaseFragment<ProjectPresenter, ProjectModel
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder1 = ButterKnife.bind(this, rootView);
-        return rootView;
     }
 
     /**

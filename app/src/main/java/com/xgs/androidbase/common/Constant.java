@@ -8,4 +8,6 @@ public class Constant {
     public static final String LIST_TO_TOP = "LIST_TO_TOP";
     public static final String MENU_SHOW = "MENU_SHOW";
     public static final String MENU_HIDE = "MENU_HIDE";
+    public static final String REMOVE_TREE = "REMOVE_TREE";
+    public static final String ADD_TREE = "ADD_TREE";
 }

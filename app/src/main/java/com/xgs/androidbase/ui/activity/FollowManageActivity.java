@@ -17,6 +17,9 @@ import com.xgs.androidbase.adapter.ProjectTreeAdapter;
 import com.xgs.androidbase.base.BaseActivity;
 import com.xgs.androidbase.bean.BaseWanBean;
 import com.xgs.androidbase.bean.ProjectTreeBean;
+import com.xgs.androidbase.bean.RxBusBean;
+import com.xgs.androidbase.common.Constant;
+import com.xgs.androidbase.common.rx.RxBus;
 import com.xgs.androidbase.ui.contract.FollowManageContract;
 import com.xgs.androidbase.ui.model.FollowManageModel;
 import com.xgs.androidbase.ui.presenter.FollowManagePresenter;
@@ -82,9 +85,10 @@ public class FollowManageActivity extends BaseActivity<FollowManagePresenter, Fo
         myTreeAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if(!myTreeList.get(position).isFixed()) {
+                if (!myTreeList.get(position).isFixed()) {
                     myTreeList.get(position).setFollow(false);
                     moreTreeAdapter.addData(myTreeList.get(position));
+                    RxBus.getInstance().post(new RxBusBean(Constant.REMOVE_TREE, myTreeList.get(position)));
                     myTreeAdapter.remove(position);
                     mPresenter.cleanProject();
                 }
@@ -120,6 +124,7 @@ public class FollowManageActivity extends BaseActivity<FollowManagePresenter, Fo
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 moreTreeList.get(position).setFollow(true);
                 myTreeAdapter.addData(moreTreeList.get(position));
+                RxBus.getInstance().post(new RxBusBean(Constant.ADD_TREE, moreTreeList.get(position)));
                 moreTreeAdapter.remove(position);
                 mPresenter.cleanProject();
             }
