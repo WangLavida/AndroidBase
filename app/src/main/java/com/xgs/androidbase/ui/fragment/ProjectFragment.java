@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.xgs.androidbase.R;
@@ -94,6 +95,7 @@ public class ProjectFragment extends BaseFragment<ProjectPresenter, ProjectModel
     }
 
     private void initRefresh() {
+        ClassicsFooter.REFRESH_FOOTER_NOTHING = "我也是有底线的";//"没有更多数据了";
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
