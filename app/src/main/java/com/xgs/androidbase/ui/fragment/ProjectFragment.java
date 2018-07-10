@@ -1,6 +1,7 @@
 package com.xgs.androidbase.ui.fragment;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,8 +11,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.race604.drawable.wave.WaveDrawable;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
@@ -59,6 +62,8 @@ public class ProjectFragment extends BaseFragment<ProjectPresenter, ProjectModel
     private List<ProjectBean> projectBeanList = new ArrayList<ProjectBean>();
     private OnFragmentInteractionListener mListener;
     private int pageNo = 1;
+    private View emptyView;
+    private View loadView;
 
     // TODO: Rename and change types and number of parameters
     public static ProjectFragment newInstance(ProjectTreeBean projectTreeBean) {
@@ -85,6 +90,9 @@ public class ProjectFragment extends BaseFragment<ProjectPresenter, ProjectModel
             projectTreeBean = (ProjectTreeBean) getArguments().getSerializable(ARG_PARAM1);
             LogUtil.i(projectTreeBean.getName());
         }
+
+        initEmptyView();
+
         projectListAdapter = new ProjectListAdapter(R.layout.project_item, projectBeanList);
         projectListAdapter.isFirstOnly(false);
 //        projectListAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
@@ -94,7 +102,29 @@ public class ProjectFragment extends BaseFragment<ProjectPresenter, ProjectModel
         initRefresh();
     }
 
+    private void initEmptyView() {
+        loadView = layoutInflater.inflate(R.layout.load_view, null);
+        ImageView imageView = loadView.findViewById(R.id.load_image);
+        WaveDrawable mWaveDrawable = new WaveDrawable(mContext, R.mipmap.android);
+        imageView.setImageDrawable(mWaveDrawable);
+        mWaveDrawable.setIndeterminate(true);
+//        mWaveDrawable.setLevel(10000);
+//        mWaveDrawable.setWaveAmplitude(100);
+//        mWaveDrawable.setWaveLength(600);
+//        mWaveDrawable.setWaveSpeed(50);
+        emptyView = layoutInflater.inflate(R.layout.empty_view, null);
+        emptyView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPresenter.getProjectList(pageNo, projectTreeBean.getId());
+            }
+        });
+
+    }
+
     private void initRefresh() {
+        refreshLayout.setEnableRefresh(false);//是否启用下拉刷新功能
+        refreshLayout.setEnableLoadMore(false);//是否启用上拉加载功能
         ClassicsFooter.REFRESH_FOOTER_NOTHING = "我也是有底线的";//"没有更多数据了";
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -144,13 +174,18 @@ public class ProjectFragment extends BaseFragment<ProjectPresenter, ProjectModel
 
     @Override
     public void returnPojectList(ProjectBaseBean projectBaseBean) {
-        LogUtil.i(projectBaseBean.getData().getDatas().size());
         if (projectBaseBean.getData().getDatas().size() == 0) {
-            ToastUitl.showShort("加载完毕");
-           refreshLayout.finishLoadMoreWithNoMoreData();
+            if (projectBeanList.size() == 0) {
+                projectListAdapter.setEmptyView(emptyView);
+            } else {
+                ToastUitl.showShort("加载完毕");
+            }
+            refreshLayout.finishLoadMoreWithNoMoreData();
         } else {
             if (pageNo == 1) {
                 projectBeanList.clear();
+                refreshLayout.setEnableRefresh(true);//是否启用下拉刷新功能
+                refreshLayout.setEnableLoadMore(true);//是否启用上拉加载功能
             }
             projectBeanList.addAll(projectBaseBean.getData().getDatas());
             projectListAdapter.notifyDataSetChanged();
@@ -167,6 +202,18 @@ public class ProjectFragment extends BaseFragment<ProjectPresenter, ProjectModel
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+    }
+
+    @Override
+    public void startLoad() {
+        if (projectBeanList.size() == 0) {
+            projectListAdapter.setEmptyView(loadView);
+        }
+    }
+
+    @Override
+    public void onError() {
+
     }
 
     /**

@@ -213,6 +213,16 @@ public class WanFragment extends BaseFragment<WanPresenter, WanModel> implements
         mainFragmentPagerAdapter.swapItems(rxBusBean.fromPos, rxBusBean.toPos);
     }
 
+    @Override
+    public void startLoad() {
+
+    }
+
+    @Override
+    public void onError() {
+
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -235,18 +245,17 @@ public class WanFragment extends BaseFragment<WanPresenter, WanModel> implements
         inflater.inflate(R.menu.menu_item, menu);
         SearchView searchView = (SearchView) menu.findItem(R.id.tool_search).getActionView();
         searchView.setQueryHint("你想搜什么");
+        //修改搜索按钮
         AppCompatImageView sButton=(AppCompatImageView)searchView.findViewById(android.support.v7.appcompat.R.id.search_button);
         sButton.setImageResource(R.mipmap.search_icon);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                LogUtil.i(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                LogUtil.i(newText);
                 return false;
             }
         });
@@ -256,6 +265,7 @@ public class WanFragment extends BaseFragment<WanPresenter, WanModel> implements
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Fragment显示menu
         setHasOptionsMenu(true);
     }
 

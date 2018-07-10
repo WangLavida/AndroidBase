@@ -32,13 +32,14 @@ public abstract class BaseFragment<T extends BasePresenter, E extends BaseModel>
     public abstract void initData();
 
     public View rootView;
-
+    public LayoutInflater layoutInflater;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(getLayoutId(), container, false);
         ButterKnife.bind(this, rootView);
         mContext = getActivity();
+        layoutInflater = LayoutInflater.from(mContext);
         mPresenter = TUtil.getT(this, 0);
         mModel = TUtil.getT(this, 1);
         if (mPresenter != null) {

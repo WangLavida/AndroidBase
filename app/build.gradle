@@ -73,4 +73,6 @@ dependencies {
     implementation ('com.airbnb.android:lottie:2.5.5'){
         exclude group: "com.android.support"
     }
+
+    compile 'com.race604.waveloading:library:1.1.1'
 }

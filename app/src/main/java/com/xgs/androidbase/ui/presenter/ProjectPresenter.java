@@ -17,7 +17,7 @@ public class ProjectPresenter extends ProjectContract.Presenter {
     @Override
     public void onStart() {
         super.onStart();
-        RxBus.getInstance().toObservable(String.class).subscribe(new RxObserver<String>(mContext,mRxManager) {
+        RxBus.getInstance().toObservable(String.class).subscribe(new RxObserver<String>(mContext, mRxManager) {
             @Override
             public void onSuccess(String s) {
                 if (s.equals(Constant.LIST_TO_TOP)) {
@@ -34,6 +34,7 @@ public class ProjectPresenter extends ProjectContract.Presenter {
 
     @Override
     public void getProjectList(int pageNo, Long cid) {
+        mView.startLoad();
         mModel.getProjectList(pageNo, cid).subscribe(new RxObserver<ProjectBaseBean>(mContext, mRxManager) {
             @Override
             public void onSuccess(ProjectBaseBean projectBaseBean) {
@@ -42,7 +43,7 @@ public class ProjectPresenter extends ProjectContract.Presenter {
 
             @Override
             public void onFail(Throwable e, boolean isNetWorkError) {
-
+                mView.onError();
             }
         });
     }

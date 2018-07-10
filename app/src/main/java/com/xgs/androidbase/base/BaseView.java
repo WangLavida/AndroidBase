@@ -5,4 +5,6 @@ package com.xgs.androidbase.base;
  */
 
 public interface BaseView {
+    void startLoad();
+    void onError();
 }

@@ -161,4 +161,14 @@ public class FollowManageActivity extends BaseActivity<FollowManagePresenter, Fo
         }
         mPresenter.saveProjectTree(allList);
     }
+
+    @Override
+    public void startLoad() {
+
+    }
+
+    @Override
+    public void onError() {
+
+    }
 }

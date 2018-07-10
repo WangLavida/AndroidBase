@@ -97,4 +97,14 @@ public class WelcomeActivity extends BaseActivity<WelcomePresenter, WelcomeModel
         }
         startMain();
     }
+
+    @Override
+    public void startLoad() {
+
+    }
+
+    @Override
+    public void onError() {
+
+    }
 }
