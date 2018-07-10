@@ -38,6 +38,7 @@ public class Api {
     public static final int CONNECT_TIME_OUT = 30000;
     public Retrofit retrofit;
     private static WanService wanService;
+    private static GankService gankService;
 //    1. noCache 不使用缓存，全部走网络
 //
 //    2. noStore 不使用缓存，也不存储缓存
@@ -102,7 +103,7 @@ public class Api {
     }
 
     public static <T> T createApi(Class<T> clazz, String url) {
-        return new Api(WanService.HOST).retrofit.create(clazz);
+        return new Api(url).retrofit.create(clazz);
     }
 
     public static WanService createWan() {
@@ -111,7 +112,12 @@ public class Api {
         }
         return wanService;
     }
-
+    public static GankService createGank() {
+        if (gankService == null) {
+            gankService = new Api(GankService.HOST).retrofit.create(GankService.class);
+        }
+        return gankService;
+    }
     /**
      * 打印返回的json数据拦截器
      */
