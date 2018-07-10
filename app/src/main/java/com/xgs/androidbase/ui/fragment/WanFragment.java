@@ -3,12 +3,19 @@ package com.xgs.androidbase.ui.fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatImageView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -98,6 +105,7 @@ public class WanFragment extends BaseFragment<WanPresenter, WanModel> implements
 
     @Override
     public void initView() {
+        ((AppCompatActivity)mContext).setSupportActionBar(toolBar);
         toolBar.setTitle("");
         titleText.setText("首页");
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -218,6 +226,41 @@ public class WanFragment extends BaseFragment<WanPresenter, WanModel> implements
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+
         void openDrawer();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_item, menu);
+        SearchView searchView = (SearchView) menu.findItem(R.id.tool_search).getActionView();
+        searchView.setQueryHint("你想搜什么");
+        AppCompatImageView sButton=(AppCompatImageView)searchView.findViewById(android.support.v7.appcompat.R.id.search_button);
+        sButton.setImageResource(R.mipmap.search_icon);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                LogUtil.i(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                LogUtil.i(newText);
+                return false;
+            }
+        });
+        super.onCreateOptionsMenu(menu,inflater);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
     }
 }

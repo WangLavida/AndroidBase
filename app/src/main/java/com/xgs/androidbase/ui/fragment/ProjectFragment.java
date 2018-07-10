@@ -87,7 +87,7 @@ public class ProjectFragment extends BaseFragment<ProjectPresenter, ProjectModel
         }
         projectListAdapter = new ProjectListAdapter(R.layout.project_item, projectBeanList);
         projectListAdapter.isFirstOnly(false);
-        projectListAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
+//        projectListAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         recycler.setLayoutManager(new LinearLayoutManager(mContext));
         recycler.addItemDecoration(new SpacesItemDecoration(mContext, LinearLayoutManager.VERTICAL, 10, getResources().getColor(R.color.light_color)));
         recycler.setAdapter(projectListAdapter);
