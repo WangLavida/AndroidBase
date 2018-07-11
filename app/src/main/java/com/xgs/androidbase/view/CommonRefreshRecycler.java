@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.race604.drawable.wave.WaveDrawable;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -147,6 +148,22 @@ public class CommonRefreshRecycler extends LinearLayout {
                 if (crrCallBack != null) {
                     crrCallBack.onLoadMore();
                 }
+            }
+        });
+        recycler.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    Glide.with(mContext).resumeRequests();
+                }else {
+                    Glide.with(mContext).pauseRequests();
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
             }
         });
     }
