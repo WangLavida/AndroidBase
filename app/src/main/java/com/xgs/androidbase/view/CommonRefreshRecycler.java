@@ -150,21 +150,5 @@ public class CommonRefreshRecycler extends LinearLayout {
                 }
             }
         });
-        recycler.setOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    Glide.with(mContext).resumeRequests();
-                }else {
-                    Glide.with(mContext).pauseRequests();
-                }
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-            }
-        });
     }
 }

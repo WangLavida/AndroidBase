@@ -3,6 +3,7 @@ package com.xgs.androidbase;
 import android.app.Application;
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatDelegate;
 
 import com.blankj.utilcode.util.Utils;
 import com.orhanobut.logger.AndroidLogAdapter;
@@ -11,6 +12,10 @@ import com.orhanobut.logger.DiskLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
+import com.xgs.androidbase.common.Constant;
+import com.xgs.androidbase.util.SharedPreferencesUtil;
+
+import org.w3c.dom.ProcessingInstruction;
 
 
 /**
@@ -23,8 +28,19 @@ public class MainApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mainApplication = this;
+        initDayNight();
         Utils.init(this);
         initLog();
+    }
+    private void initDayNight(){
+        boolean isNightMode = (boolean) SharedPreferencesUtil.getData(mainApplication, Constant.DAY_NIGHT,false);
+        if (isNightMode) {
+//            直接指定夜间模式
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }else {
+//            直接指定日间模式
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
     }
     public static Context getAppContext() {
         return mainApplication;

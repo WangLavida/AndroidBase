@@ -12,12 +12,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,16 +31,13 @@ import com.xgs.androidbase.ui.contract.WanContract;
 import com.xgs.androidbase.ui.model.WanModel;
 import com.xgs.androidbase.ui.presenter.WanPresenter;
 import com.xgs.androidbase.util.LogUtil;
-import com.xgs.androidbase.util.ToastUitl;
 import com.xgs.androidbase.util.ViewUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -63,12 +58,10 @@ public class WanFragment extends BaseFragment<WanPresenter, WanModel> implements
     TabLayout tabLayout;
     @BindView(R.id.view_pager)
     ViewPager viewPager;
-    Unbinder unbinder;
     @BindView(R.id.add_follow)
     ImageView addFollow;
     @BindView(R.id.fab)
     FloatingActionButton fab;
-    Unbinder unbinder1;
     private List<String> tabTitles = new ArrayList<String>();
     private List<Fragment> fragmentList = new ArrayList<Fragment>();
     private MainFragmentPagerAdapter mainFragmentPagerAdapter;
@@ -171,7 +164,6 @@ public class WanFragment extends BaseFragment<WanPresenter, WanModel> implements
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
     }
 
     @Override

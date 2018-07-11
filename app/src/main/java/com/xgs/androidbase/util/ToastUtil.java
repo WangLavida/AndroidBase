@@ -18,7 +18,7 @@ import static com.xgs.androidbase.R.*;
 /**
  * Toast统一管理类
  */
-public class ToastUitl {
+public class ToastUtil {
 
 
     private static Toast toast;

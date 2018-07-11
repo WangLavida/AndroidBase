@@ -5,6 +5,7 @@
     <color name="colorAccent">#90caf9</color>
     <color name="textColorPrimary">#ffffff</color>
     <color name="navigationBarColor">#90caf9</color>
+    <color name="toolBarTextColor">#ffffff</color>
 
     <color name="white">#FFFFFFFF</color>
     <color name="black">#000000</color>

@@ -11,6 +11,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -32,6 +33,7 @@ import com.xgs.androidbase.ui.fragment.ToolFragment;
 import com.xgs.androidbase.ui.fragment.WanFragment;
 import com.xgs.androidbase.util.GlideUtil;
 import com.xgs.androidbase.util.LogUtil;
+import com.xgs.androidbase.util.SharedPreferencesUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,13 +69,13 @@ public class MainActivity extends BaseActivity implements ProjectFragment.OnFrag
     public void initView() {
         initDrawerLayout();
         initViewPager();
-        RxBus.getInstance().toObservable(String.class).subscribe(new RxObserver<String>(mContext,new RxManager()) {
+        RxBus.getInstance().toObservable(String.class).subscribe(new RxObserver<String>(mContext, new RxManager()) {
             @Override
             public void onSuccess(String s) {
                 if (s.equals(Constant.MENU_SHOW)) {
                     LogUtil.i(Constant.MENU_SHOW);
                     setMneu(true);
-                }else if (s.equals(Constant.MENU_HIDE)) {
+                } else if (s.equals(Constant.MENU_HIDE)) {
                     LogUtil.i(Constant.MENU_HIDE);
                     setMneu(false);
                 }
@@ -94,8 +96,8 @@ public class MainActivity extends BaseActivity implements ProjectFragment.OnFrag
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        tabLayout.measure(0,0);
-        tabLayoutHeight=tabLayout.getMeasuredHeight();
+        tabLayout.measure(0, 0);
+        tabLayoutHeight = tabLayout.getMeasuredHeight();
     }
 
     private void initViewPager() {
@@ -156,6 +158,22 @@ public class MainActivity extends BaseActivity implements ProjectFragment.OnFrag
                         break;
                     case R.id.nav_theme:
                         LogUtil.i("nav_theme");
+                        //更改主题
+                        boolean isNightMode = (boolean) SharedPreferencesUtil.getData(mContext, Constant.DAY_NIGHT, false);
+                        if (isNightMode) {
+                            // 作用在当前组件
+                            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                            SharedPreferencesUtil.saveData(mContext, Constant.DAY_NIGHT, false);
+                        } else {
+                            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                            SharedPreferencesUtil.saveData(mContext, Constant.DAY_NIGHT, true);
+                        }
+                        //AppCompatDelegate.setDefaultNightMode(int mode);
+                        // 只作用于新生成的组件，对原先处于任务栈中的Activity不起作用。
+                        // 如果直接在Activity的onCreate()中调用这句代码，那当前的Activity中直接生效，不需要再调用recreate()
+                        // recreate();
                         break;
                     case R.id.nav_about:
                         LogUtil.i("nav_about");

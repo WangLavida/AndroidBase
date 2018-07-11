@@ -3,19 +3,12 @@ package com.xgs.androidbase.ui.fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
-import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.xgs.androidbase.R;
 import com.xgs.androidbase.adapter.ProjectListAdapter;
 import com.xgs.androidbase.base.BaseFragment;
@@ -27,7 +20,7 @@ import com.xgs.androidbase.ui.contract.ProjectContract;
 import com.xgs.androidbase.ui.model.ProjectModel;
 import com.xgs.androidbase.ui.presenter.ProjectPresenter;
 import com.xgs.androidbase.util.LogUtil;
-import com.xgs.androidbase.util.ToastUitl;
+import com.xgs.androidbase.util.ToastUtil;
 import com.xgs.androidbase.view.CommonRefreshRecycler;
 import com.xgs.androidbase.view.SpacesItemDecoration;
 
@@ -155,7 +148,7 @@ public class ProjectFragment extends BaseFragment<ProjectPresenter, ProjectModel
             if (projectBeanList.size() == 0) {
                 crrView.setEmpty();
             } else {
-                ToastUitl.showShort("加载完毕");
+                ToastUtil.showShort("加载完毕");
             }
             crrView.finishLoadMoreWithNoMoreData();
         } else {

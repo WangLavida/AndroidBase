@@ -10,13 +10,9 @@ import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.xgs.androidbase.R;
@@ -24,7 +20,6 @@ import com.xgs.androidbase.adapter.GankAdapter;
 import com.xgs.androidbase.base.BaseFragment;
 import com.xgs.androidbase.bean.GankBaseBean;
 import com.xgs.androidbase.bean.GankBean;
-import com.xgs.androidbase.bean.ProjectBean;
 import com.xgs.androidbase.common.Constant;
 import com.xgs.androidbase.common.rx.RxBus;
 import com.xgs.androidbase.impl.CrrCallBack;
@@ -32,15 +27,13 @@ import com.xgs.androidbase.ui.activity.GankShowActivity;
 import com.xgs.androidbase.ui.contract.GankContract;
 import com.xgs.androidbase.ui.model.GankModel;
 import com.xgs.androidbase.ui.presenter.GankPresenter;
-import com.xgs.androidbase.util.ToastUitl;
+import com.xgs.androidbase.util.ToastUtil;
 import com.xgs.androidbase.view.CommonRefreshRecycler;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -60,10 +53,9 @@ public class GankFragment extends BaseFragment<GankPresenter,GankModel> implemen
     @BindView(R.id.fab)
     FloatingActionButton fab;
     private int pageNo = 1;
-    private int num = 15;
+    private int num = 20;
     private GankAdapter gankAdapter;
     private List<GankBean> gankList = new ArrayList<GankBean>();
-    Unbinder unbinder;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
@@ -85,14 +77,6 @@ public class GankFragment extends BaseFragment<GankPresenter,GankModel> implemen
         GankFragment fragment = new GankFragment();
 
         return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-
-        }
     }
 
     @Override
@@ -191,17 +175,8 @@ public class GankFragment extends BaseFragment<GankPresenter,GankModel> implemen
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
-        return rootView;
-    }
-
-    @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
     }
 
     @Override
@@ -222,7 +197,7 @@ public class GankFragment extends BaseFragment<GankPresenter,GankModel> implemen
             if (gankList.size() == 0) {
                 crrView.setEmpty();
             } else {
-                ToastUitl.showShort("加载完毕");
+                ToastUtil.showShort("加载完毕");
             }
             crrView.finishLoadMoreWithNoMoreData();
         } else {
@@ -254,5 +229,11 @@ public class GankFragment extends BaseFragment<GankPresenter,GankModel> implemen
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        toolBar.setTitle("福利");
     }
 }

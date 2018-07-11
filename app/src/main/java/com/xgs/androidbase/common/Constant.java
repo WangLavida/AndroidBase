@@ -11,4 +11,5 @@ public class Constant {
     public static final String REMOVE_TREE = "REMOVE_TREE";
     public static final String ADD_TREE = "ADD_TREE";
     public static final String SWAP_TREE = "SWAP_TREE";
+    public static final String DAY_NIGHT = "DAY_NIGHT";
 }
