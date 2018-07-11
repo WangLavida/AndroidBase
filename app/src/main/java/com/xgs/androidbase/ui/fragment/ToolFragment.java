@@ -4,30 +4,45 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.xgs.androidbase.R;
+import com.xgs.androidbase.adapter.ToolAdapter;
 import com.xgs.androidbase.base.BaseFragment;
+import com.xgs.androidbase.bean.ToolBean;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ToolFragment.OnFragmentInteractionListener} interface
+ * {@link OnFragmentInteractionListener} interface
  * to handle interaction events.
  * Use the {@link ToolFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class ToolFragment extends BaseFragment {
+    @BindView(R.id.tool_bar)
+    Toolbar toolBar;
+    @BindView(R.id.recycler)
+    RecyclerView recycler;
+    private ToolAdapter toolAdapter;
+    private List<ToolBean> toolList = new ArrayList<ToolBean>();
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
@@ -44,10 +59,6 @@ public class ToolFragment extends BaseFragment {
     // TODO: Rename and change types and number of parameters
     public static ToolFragment newInstance() {
         ToolFragment fragment = new ToolFragment();
-//        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
-//        fragment.setArguments(args);
         return fragment;
     }
 
@@ -55,8 +66,7 @@ public class ToolFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
     }
 
@@ -72,20 +82,17 @@ public class ToolFragment extends BaseFragment {
 
     @Override
     public void initView() {
-
+        ((AppCompatActivity) mContext).setSupportActionBar(toolBar);
+        toolBar.setTitle("工具");
+        toolAdapter = new ToolAdapter(R.layout.tool_item, toolList);
+        recycler.setLayoutManager(new GridLayoutManager(mContext, 3));
+        recycler.setAdapter(toolAdapter);
     }
 
     @Override
     public void initData() {
-
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        return rootView;
+        toolList.add(new ToolBean(0, "指纹识别", R.mipmap.ic_launcher));
+        toolAdapter.notifyDataSetChanged();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -110,6 +117,11 @@ public class ToolFragment extends BaseFragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
     }
 
     /**
