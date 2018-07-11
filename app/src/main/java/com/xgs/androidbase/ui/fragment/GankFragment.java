@@ -20,6 +20,8 @@ import com.xgs.androidbase.base.BaseFragment;
 import com.xgs.androidbase.bean.GankBaseBean;
 import com.xgs.androidbase.bean.GankBean;
 import com.xgs.androidbase.bean.ProjectBean;
+import com.xgs.androidbase.common.Constant;
+import com.xgs.androidbase.common.rx.RxBus;
 import com.xgs.androidbase.impl.CrrCallBack;
 import com.xgs.androidbase.ui.contract.GankContract;
 import com.xgs.androidbase.ui.model.GankModel;
@@ -103,6 +105,13 @@ public class GankFragment extends BaseFragment<GankPresenter,GankModel> implemen
         toolBar.setTitle("");
         titleText.setText("福利");
 
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RxBus.getInstance().post(Constant.LIST_TO_TOP);
+            }
+        });
+
         gankAdapter = new GankAdapter(R.layout.gank_item,gankList);
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);//定义瀑布流管理器，第一个参数是列数，第二个是方向。
         //不设置的话，图片闪烁错位，有可能有整列错位的情况。
@@ -185,7 +194,7 @@ public class GankFragment extends BaseFragment<GankPresenter,GankModel> implemen
 
     @Override
     public void onError() {
-
+        crrView.setEmpty();
     }
 
     @Override

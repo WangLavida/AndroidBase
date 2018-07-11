@@ -5,6 +5,7 @@ import com.xgs.androidbase.common.Constant;
 import com.xgs.androidbase.common.rx.RxBus;
 import com.xgs.androidbase.common.rx.RxObserver;
 import com.xgs.androidbase.ui.contract.GankContract;
+import com.xgs.androidbase.util.LogUtil;
 
 /**
  * Created by W.J on 2018/7/10.
@@ -24,7 +25,6 @@ public class GankPresenter extends GankContract.Presenter {
 
             @Override
             public void onFail(Throwable e, boolean isNetWorkError) {
-
             }
         });
     }
@@ -40,7 +40,7 @@ public class GankPresenter extends GankContract.Presenter {
 
             @Override
             public void onFail(Throwable e, boolean isNetWorkError) {
-
+                mView.onError();
             }
         });
     }

@@ -3,6 +3,8 @@ package com.xgs.androidbase.common.rx;
 import android.accounts.NetworkErrorException;
 import android.content.Context;
 
+import com.xgs.androidbase.util.LogUtil;
+
 import java.net.ConnectException;
 import java.net.UnknownHostException;
 import java.util.concurrent.TimeoutException;
@@ -21,7 +23,7 @@ public abstract class RxObserver<T> implements Observer<T> {
 
     public abstract void onSuccess(T t);
 
-    public abstract void onFail(Throwable e,boolean isNetWorkError);
+    public abstract void onFail(Throwable e, boolean isNetWorkError);
 
     public RxObserver(Context mContext, RxManager mRxManager) {
         this.mContext = mContext;
@@ -40,18 +42,18 @@ public abstract class RxObserver<T> implements Observer<T> {
 
     @Override
     public void onError(Throwable e) {
-        try {
-            if (e instanceof ConnectException
-                    || e instanceof TimeoutException
-                    || e instanceof NetworkErrorException
-                    || e instanceof UnknownHostException) {
-                onFail(e, true);
-            } else {
-                onFail(e, false);
-            }
-        } catch (Exception e1) {
-            e1.printStackTrace();
+        LogUtil.i(e.toString());
+        onFail(e, true);
+        if (e instanceof ConnectException
+                || e instanceof TimeoutException
+                || e instanceof NetworkErrorException
+                || e instanceof UnknownHostException) {
+            onFail(e, true);
+        } else {
+            onFail(e, false);
         }
+
+
     }
 
     @Override

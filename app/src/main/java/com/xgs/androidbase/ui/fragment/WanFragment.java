@@ -128,7 +128,7 @@ public class WanFragment extends BaseFragment<WanPresenter, WanModel> implements
         mainFragmentPagerAdapter = new MainFragmentPagerAdapter(getChildFragmentManager(), fragmentList, tabTitles);
         viewPager.setAdapter(mainFragmentPagerAdapter);
         viewPager.setCurrentItem(0);
-        viewPager.setOffscreenPageLimit(3);
+        viewPager.setOffscreenPageLimit(2);
         tabLayout.setupWithViewPager(viewPager);
         ViewUtil.dynamicSetTabLayoutMode(tabLayout, mContext);
     }

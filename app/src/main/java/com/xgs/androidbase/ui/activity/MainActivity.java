@@ -198,7 +198,6 @@ public class MainActivity extends BaseActivity implements ProjectFragment.OnFrag
     }
 
     private void setMneu(boolean isShow) {
-        LogUtil.i(tabLayoutHeight);
         final ViewGroup.LayoutParams layoutParams = tabLayout.getLayoutParams();
         ValueAnimator valueAnimator;
         ObjectAnimator alpha;
