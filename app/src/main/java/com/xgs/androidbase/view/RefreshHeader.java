@@ -52,7 +52,7 @@ public class RefreshHeader extends LinearLayout implements com.scwang.smartrefre
         glottieView = headerView.findViewById(R.id.glottie_view);
         slottieView = headerView.findViewById(R.id.slottie_view);
         addView(headerView);
-        setMinimumHeight(DpUtil.dp2px(60));
+        setMinimumHeight(DpUtil.dp2px(50));
     }
 
     @NonNull

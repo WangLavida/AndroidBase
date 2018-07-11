@@ -16,7 +16,7 @@
             android:id="@+id/xlottie_view"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="80dp"
+            android:layout_height="50dp"
             app:lottie_autoPlay="true"
             app:lottie_fileName="X.json"
             app:lottie_loop="true"/>
@@ -25,7 +25,7 @@
             android:id="@+id/glottie_view"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="80dp"
+            android:layout_height="50dp"
             app:lottie_autoPlay="true"
             app:lottie_fileName="G.json"
             app:lottie_loop="true"/>
@@ -34,7 +34,7 @@
             android:id="@+id/slottie_view"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="80dp"
+            android:layout_height="50dp"
             app:lottie_autoPlay="true"
             app:lottie_fileName="S.json"
             app:lottie_loop="true"/>

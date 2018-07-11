@@ -128,6 +128,10 @@ public class CommonRefreshRecycler extends LinearLayout {
     }
 
     private void initView() {
+        refreshLayout.setDragRate(0.5f);
+        refreshLayout.setHeaderMaxDragRate(1.5f);
+        refreshLayout.setDisableContentWhenLoading(true);
+        refreshLayout.setDisableContentWhenRefresh(true);
         ClassicsFooter.REFRESH_FOOTER_NOTHING = "我也是有底线的";//"没有更多数据了";
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
