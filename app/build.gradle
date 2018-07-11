@@ -70,9 +70,13 @@ dependencies {
 
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-10'
 
-    implementation ('com.airbnb.android:lottie:2.5.5'){
+    implementation('com.airbnb.android:lottie:2.5.5') {
         exclude group: "com.android.support"
     }
-
+    //加载动画
     compile 'com.race604.waveloading:library:1.1.1'
+    //加载大图
+    implementation('com.davemorrissey.labs:subsampling-scale-image-view:3.10.0') {
+        exclude group: "com.android.support"
+    }
 }

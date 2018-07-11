@@ -1,8 +1,12 @@
 package com.xgs.androidbase.ui.fragment;
 
+import android.app.ActivityOptions;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.xgs.androidbase.R;
 import com.xgs.androidbase.adapter.GankAdapter;
 import com.xgs.androidbase.base.BaseFragment;
@@ -23,6 +28,7 @@ import com.xgs.androidbase.bean.ProjectBean;
 import com.xgs.androidbase.common.Constant;
 import com.xgs.androidbase.common.rx.RxBus;
 import com.xgs.androidbase.impl.CrrCallBack;
+import com.xgs.androidbase.ui.activity.GankShowActivity;
 import com.xgs.androidbase.ui.contract.GankContract;
 import com.xgs.androidbase.ui.model.GankModel;
 import com.xgs.androidbase.ui.presenter.GankPresenter;
@@ -45,8 +51,8 @@ import butterknife.Unbinder;
  * create an instance of this fragment.
  */
 public class GankFragment extends BaseFragment<GankPresenter,GankModel> implements GankContract.View {
-    @BindView(R.id.title_text)
-    TextView titleText;
+//    @BindView(R.id.title_text)
+//    TextView titleText;
     @BindView(R.id.tool_bar)
     Toolbar toolBar;
     @BindView(R.id.crr_view)
@@ -102,8 +108,8 @@ public class GankFragment extends BaseFragment<GankPresenter,GankModel> implemen
     @Override
     public void initView() {
         ((AppCompatActivity)mContext).setSupportActionBar(toolBar);
-        toolBar.setTitle("");
-        titleText.setText("福利");
+        toolBar.setTitle("福利");
+//        titleText.setText("福利");
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,6 +123,19 @@ public class GankFragment extends BaseFragment<GankPresenter,GankModel> implemen
         //不设置的话，图片闪烁错位，有可能有整列错位的情况。
         layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
         crrView.setLayoutManager(layoutManager);
+        gankAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Intent intent = new Intent(mContext, GankShowActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(GankShowActivity.GANK_BEAN, gankList.get(position));
+                intent.putExtras(bundle);
+                ActivityOptions option = ActivityOptions
+                        .makeSceneTransitionAnimation(getActivity(),view.findViewById(R.id.gank_image),"share_image");
+                startActivity(intent,option.toBundle());
+            }
+        });
         crrView.setAdapter(gankAdapter);
 
         initRefresh();
@@ -209,7 +228,7 @@ public class GankFragment extends BaseFragment<GankPresenter,GankModel> implemen
         } else {
             if (pageNo == 1) {
                 gankList.clear();
-                crrView.setEnable(true, true);
+                crrView.setEnable(false, true);
             }
             gankList.addAll(gankBaseBean.getResults());
             gankAdapter.notifyDataSetChanged();

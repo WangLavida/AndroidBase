@@ -17,6 +17,7 @@ import com.xgs.androidbase.R;
 import com.xgs.androidbase.bean.GankBean;
 import com.xgs.androidbase.util.DpUtil;
 import com.xgs.androidbase.util.GlideUtil;
+import com.xgs.androidbase.util.LogUtil;
 import com.xgs.androidbase.util.ScreenUtils;
 
 import java.util.List;
@@ -38,16 +39,15 @@ public class GankAdapter extends BaseQuickAdapter<GankBean, BaseViewHolder> {
             DpUtil.setViewMargin(helper.itemView, false, 5, 10, 10, 0);
         }
         final ImageView imageView = helper.getView(R.id.gank_image);
-//        GlideUtil.init(mContext).loadImage(item.getUrl(), (ImageView) helper.getView(R.id.gank_image));
-        Glide.with(mContext).load(item.getUrl()).into(new SimpleTarget<Drawable>() {
+        Glide.with(mContext).load(item.getUrl().replace("large", "small")).into(new SimpleTarget<Drawable>() {
             @Override
             public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-//这个bitmap就是你图片url加载得到的结果
+                //这个bitmap就是你图片url加载得到的结果
                 //获取bitmap信息，可赋值给外部变量操作，也可在此时行操作。
                 LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) imageView.getLayoutParams();//获取你要填充图片的布局的layoutParam
-                layoutParams.height = (int) (((float) resource.getMinimumHeight()) / resource.getMinimumWidth() * ScreenUtils.getScreenWidth(mContext) / 2 );
+                layoutParams.height = (int) (((float) resource.getMinimumHeight()) / resource.getMinimumWidth() * ScreenUtils.getScreenWidth(mContext) / 2);
                 //因为是2列,所以宽度是屏幕的一半,高度是根据bitmap的高/宽*屏幕宽的一半
-                layoutParams.width =  ScreenUtils.getScreenWidth(mContext) / 2;//这个是布局的宽度
+                layoutParams.width = ScreenUtils.getScreenWidth(mContext) / 2;//这个是布局的宽度
                 imageView.setLayoutParams(layoutParams);//容器的宽高设置好了
                 imageView.setImageDrawable(resource);
             }

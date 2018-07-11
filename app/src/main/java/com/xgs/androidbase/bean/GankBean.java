@@ -1,10 +1,12 @@
 package com.xgs.androidbase.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by W.J on 2018/7/10.
  */
 
-public class GankBean {
+public class GankBean implements Serializable{
 
     /**
      * _id : 5b441f06421aa92fccb520a2

@@ -30,6 +30,8 @@
         </activity>
         <activity android:name=".ui.activity.FollowManageActivity">
         </activity>
+        <activity android:name=".ui.activity.GankShowActivity">
+        </activity>
     </application>
 
 </manifest>
