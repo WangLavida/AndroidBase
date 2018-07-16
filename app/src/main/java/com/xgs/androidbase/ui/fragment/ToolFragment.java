@@ -1,6 +1,7 @@
 package com.xgs.androidbase.ui.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,10 +13,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.xgs.androidbase.R;
 import com.xgs.androidbase.adapter.ToolAdapter;
 import com.xgs.androidbase.base.BaseFragment;
 import com.xgs.androidbase.bean.ToolBean;
+import com.xgs.androidbase.ui.toolactivity.FingerprintActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,12 +89,25 @@ public class ToolFragment extends BaseFragment {
         toolBar.setTitle("工具");
         toolAdapter = new ToolAdapter(R.layout.tool_item, toolList);
         recycler.setLayoutManager(new GridLayoutManager(mContext, 3));
+        toolAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                switch (position) {
+                    case 0:
+                        Intent intent = new Intent(mContext, FingerprintActivity.class);
+                        startActivity(intent);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
         recycler.setAdapter(toolAdapter);
     }
 
     @Override
     public void initData() {
-        toolList.add(new ToolBean(0, "指纹识别", R.mipmap.ic_launcher));
+        toolList.add(new ToolBean(0, "指纹识别", R.mipmap.fingerprint_icon));
         toolAdapter.notifyDataSetChanged();
     }
 
