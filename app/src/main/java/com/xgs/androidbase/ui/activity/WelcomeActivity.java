@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.xgs.androidbase.BuildConfig;
 import com.xgs.androidbase.R;
 import com.xgs.androidbase.base.BaseActivity;
 import com.xgs.androidbase.bean.BaseWanBean;
@@ -52,6 +53,7 @@ public class WelcomeActivity extends BaseActivity<WelcomePresenter, WelcomeModel
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        interval();
+        ToastUtil.showShort(BuildConfig.FLAVOR);
         initPermission();
     }
 
