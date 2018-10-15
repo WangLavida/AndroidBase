@@ -1,7 +1,12 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.jakewharton.butterknife'
 apply plugin: 'org.greenrobot.greendao'
+apply plugin: 'com.tencent.tinker.patch'
 android {
+    dexOptions {
+        // 支持大工程模式
+        jumboMode = true
+    }
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
         applicationId "com.xgs.androidbase"
@@ -11,6 +16,22 @@ android {
         versionName "1.0"
         flavorDimensions "3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String", "MESSAGE", "\"I am the base apk\""
+//        buildConfigField "String", "MESSAGE", "\"I am the patch apk\""
+        /**
+         * client version would update with patch
+         * so we can get the newly git version easily!
+         */
+        buildConfigField "String", "TINKER_ID", "\"${getTinkerIdValue()}\""
+        buildConfigField "String", "PLATFORM", "\"all\""
+
+        //添加部分
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath true
+            }
+        }
     }
     buildTypes {
         release {
@@ -38,6 +59,11 @@ greendao {
     daoPackage 'com.xgs.androidbase.bean.greendao'
     targetGenDir 'src/main/java'
 }
+
+def getTinkerIdValue() {
+    return android.defaultConfig.versionName
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
@@ -95,4 +121,9 @@ dependencies {
     implementation('com.github.tbruyelle:rxpermissions:0.10.2') {
         exclude group: "com.android.support"
     }
+    implementation "com.android.support:multidex:1.0.1"
+    compileOnly('com.tencent.tinker:tinker-android-anno:1.9.1')
+    //tinker's main Android lib
+    implementation('com.tencent.tinker:tinker-android-lib:1.9.1')
 }
+apply from: 'tinker.gradle'
