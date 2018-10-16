@@ -7,6 +7,7 @@ import com.xgs.androidbase.base.BasePresenter;
 import com.xgs.androidbase.base.BaseView;
 import com.xgs.androidbase.bean.BaseWanBean;
 import com.xgs.androidbase.bean.ProjectTreeBean;
+import com.xgs.androidbase.bean.UpdateBean;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ import io.reactivex.Observable;
 public interface WelcomeContract {
     interface Model extends BaseModel {
         Observable<BaseWanBean<ProjectTreeBean>> getProjectTree();
+        Observable<UpdateBean> update(Context mContext);
         Observable<String> saveProjectTree(Context mContext, List<ProjectTreeBean> projectTreeBeanList);
         Observable<List<ProjectTreeBean>> getDbProject(Context mContext);
     }
@@ -26,11 +28,13 @@ public interface WelcomeContract {
     interface View extends BaseView {
         void saveProjectTree(BaseWanBean<ProjectTreeBean> baseWanBean);
         void getDbProject(List<ProjectTreeBean> projectTreeBeanList);
+        void update(UpdateBean updateBean);
     }
 
     abstract static class Presenter extends BasePresenter<View, Model> {
         public abstract void getProjectTree();
         public abstract void getDbProject();
+        public abstract void update();
         public abstract void saveProjectTree(List<ProjectTreeBean> projectTreeBeanList);
     }
 }

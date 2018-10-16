@@ -4,7 +4,7 @@ ext {
     // 是否使用Tinker(当你的项目处于开发调试阶段时，可以改为false)
     tinkerEnabled = true
     // 基础包路径（名字这里写死为old-app.apk。用于比较新旧app生成补丁包，不管是debug还是release编译）
-    tinkerOldApkPath = "${bakPath}/old-app.apk"
+    tinkerOldApkPath = "${bakPath}/app-debug-1016-17-08-26.apk"
     // 基础包的mapping.txt文件路径（用于辅助混淆补丁包的生成，一般在生成release版app时会使用到混淆，所以这个mapping.txt文件一般也是用于release安装包补丁的生成）
     tinkerApplyMappingPath = "${bakPath}/old-app-mapping.txt"
     // 基础包的R.txt文件路径（如果你的安装包中资源文件有改动，则需要使用该R.txt文件来辅助生成补丁包）
@@ -95,7 +95,7 @@ if (buildWithTinker()) {
             // 在这里，你可以定义其他的信息，在运行时可以通过TinkerLoadResult.getPackageConfigByName得到相应的数值。
             // 但是建议直接通过修改代码来实现，例如BuildConfig。
             configField("platform", "all")
-            configField("patchVersion", "1.0")
+            configField("patchVersion", "3.0")
 //            configField("patchMessage", "tinker is sample to use")
         }
         // 7zip路径配置项，执行前提是useSign为true

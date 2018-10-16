@@ -2,8 +2,6 @@ package com.xgs.androidbase.api;
 
 import android.support.annotation.NonNull;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.orhanobut.logger.Logger;
 import com.xgs.androidbase.MainApplication;
 import com.xgs.androidbase.util.NetUtil;
@@ -112,12 +110,14 @@ public class Api {
         }
         return wanService;
     }
+
     public static GankService createGank() {
         if (gankService == null) {
             gankService = new Api(GankService.HOST).retrofit.create(GankService.class);
         }
         return gankService;
     }
+
     /**
      * 打印返回的json数据拦截器
      */

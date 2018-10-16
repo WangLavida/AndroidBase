@@ -101,7 +101,7 @@ public class MainActivity extends BaseActivity implements ProjectFragment.OnFrag
     }
 
     private void initViewPager() {
-        tabTitles.add("安卓");
+        tabTitles.add("安卓2");
         tabTitles.add("福利");
         tabTitles.add("工具");
         fragmentList.add(WanFragment.newInstance());
